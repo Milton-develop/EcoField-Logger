@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ecofield-cache-v1';
+const CACHE_NAME = 'ecofield-cache-v2';
 const urlsToCache = [
   '/',
   '/static/css/style.css',
@@ -18,14 +18,32 @@ self.addEventListener('install', event => {
 });
 
 self.addEventListener('fetch', event => {
+  // 1. Only cache GET requests
   if (event.request.method !== 'GET') {
     return;
   }
+
+  // 2. DO NOT cache these dynamic data paths
+  const url = new URL(event.request.url);
+  const bypassCachePaths = [
+    '/group', 
+    '/view_group',
+    '/admin',
+    '/delete_entry'
+  ];
   
+  // If the request path is in our bypass list, or it's the root URL ('/') but being requested
+  // from a form submission or refresh expecting fresh data, bypass cache entirely.
+  if (bypassCachePaths.some(path => url.pathname.includes(path))) {
+      return; 
+  }
+
   event.respondWith(
     caches.match(event.request)
       .then(response => {
-        if (response) {
+        // Cache hit - return response unless it's the root HTML, 
+        // we'll try network first for the root to ensure fresh form data view
+        if (response && url.pathname !== '/') {
           return response;
         }
 
