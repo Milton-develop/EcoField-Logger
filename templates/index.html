@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="apple-touch-icon" href="/static/images/icon-192x192.png">
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#2ecc71">
   <title>EcoField Logger</title>
@@ -195,12 +196,12 @@
     <div class="species-block">
       <label>Species</label>
       <br>
-      <select name="species[]" class="input species-dropdown" id="species" title="species">
+      <select class="input species-dropdown" id="species" title="species">
         <option value="">-- Select Location & Survey Type First --</option>
       </select>
       <br>
       <label>Number</label>
-      <input type="number" name="count[]" class="input" id="count" placeholder="Enter Number of Species">
+      <input type="number" class="input" id="count" placeholder="Enter Number of Species">
       <br>
     </div>
   </div>
@@ -224,11 +225,11 @@
       <div class="new-species-block">
         <label>Species Name</label>
         <br>
-        <input type="text" name="species_manual" class="input" id="new_species" placeholder="Enter new species name">
+        <input type="text" class="input" id="new_species" placeholder="Enter new species name">
         <br>
         <label>Number</label>
         <br>
-        <input type="number" name="count_manual" class="input" id="new_count" placeholder="Enter number observed">
+        <input type="number" class="input" id="new_count" placeholder="Enter number observed">
         <br>
       </div>
     </div>
@@ -550,11 +551,11 @@ function resetNewSpeciesContainer() {
         <div class="new-species-block">
             <label>Species Name</label>
             <br>
-            <input type="text" name="species_manual" class="input" id="new_species" placeholder="Enter new species name">
+            <input type="text" class="input" id="new_species" placeholder="Enter new species name">
             <br>
             <label>Number</label>
             <br>
-            <input type="number" name="count_manual" class="input" id="new_count" placeholder="Enter number observed">
+            <input type="number" class="input" id="new_count" placeholder="Enter number observed">
             <hr>
         </div>
     `;
