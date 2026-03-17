@@ -26,6 +26,7 @@ body{
   font-size: 1.1rem;
   color: #2e7d32;
   text-decoration: none;
+  padding: 0;
 }
 
 /* Nav links */
@@ -61,16 +62,23 @@ body{
     opacity: 0.9;
 }
 
-.text{
+/* .text{
     font-size: 25px;
     position: absolute;
     top: 50%;
     padding-left: 50px;
     color: white;
     line-height: 2.6;
+} */
+
+.text{
+    font-size: 25px;
+    text-align: center;
+    text-shadow: 0px 0px 100px black;
+
 }
 
-.btn {
+/* .btn {
   display: inline-block;
   padding: 0.8rem 1.5rem;
   background-color: #2e7d32;
@@ -79,105 +87,296 @@ body{
   border-radius: 6px;
   transition: background 0.2s ease;
   margin-left: 20px;
+  margin-top: 7px;
+  margin-bottom: 10px;
+} */
+
+button:hover {
+  background-color: #45944b;
 }
 
-.btn:hover {
-  background-color: #1b5e20;
+#preview-container{
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 10px; 
+    margin-top: 15px;
 }
 
-/* ===== Form Container ===== */
-.form-container {
-  max-width: 600px;
-  margin: 2rem auto;
-  padding: 2rem;
-  background-color: #2e7d32; /* soft off-white for calm feel */
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-  font-family: 'Segoe UI', sans-serif;
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem; /* vertical spacing between fields */
+#gps-status{
+    font-size: 12px; 
+    margin: 0; 
+    color: blue;
 }
 
-/* ===== Labels ===== */
-.form-container label {
-  font-weight: 600;
-  font-size: 0.95rem;
-  margin-bottom: 0.3rem;
-  color: white;
+.gps-btn{
+    font-size: 15px;
+    padding: 5px; 
+    margin: 0 auto;
+    display: block; 
+    color: white;
+    background-color: rgb(31, 194, 31);
+    width: 100%;
+    text-align: center;
 }
 
-/* ===== Inputs & Selects ===== */
-.form-container input,
-.form-container select,
-.form-container textarea {
-  padding: 0.6rem 0.8rem;
-  font-size: 0.95rem;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  outline: none;
-  width: 90%;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+.bearing{
+    display: flex; 
+    gap: 10px;
 }
 
-.form-container input:focus,
-.form-container select:focus,
-.form-container textarea:focus {
-  border-color: #2e7d32;
-  box-shadow: 0 0 0 2px rgba(46,125,50,0.15);
+.form-container{
+    border-top: 10px solid #2e7d32;;
+    width: 30em;
+    border-radius: 15px;
+    display: block;
+    margin: 0 auto;
+    padding: 20px;
+    border-left: 1px solid #2e7d32;
+    border-right: 1px solid #2e7d32;
+    border-bottom: 1px solid #2e7d32;
+    background: white ;
 }
 
-/* ===== Textarea ===== */
-.form-container textarea {
-  min-height: 100px;
-  resize: vertical;
-  font-family: 'Segoe UI', sans-serif;
+h2{
+text-align: center;
 }
 
-/* ===== Placeholder text ===== */
-.form-container input::placeholder,
-.form-container textarea::placeholder {
-  color: #9ca3af;
+h3{
+    background:  rgb(204, 240, 204);
+    padding: 10px;
+    border-radius: 5px;
+    border-left: 5px solid #2e7d32;
 }
 
-/* ===== Submit Button (optional if you add one) ===== */
-.form-container .btn1 {
-  background-color: #ffffff;
-  color: #2e7d32;
-  font-weight: 600;
-  padding: 0.8rem 1.5rem;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
+input{
+    background: rgb(244, 241, 241) ;
+    color: black;
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid #2e7d32;
+    font-size: 15px;
+    border-radius: 5px;
+    padding-left: 15px;
 }
 
-.form-container .btn:hover {
-  background-color: #f5f3f3;
+/* Stepper Navigation */
+.stepper-navigation {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    background: rgb(204, 240, 204);
+    border-radius: 10px;
+    padding-top: 10px;
+}
+
+.step-one {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgb(31, 194, 31);
+    color: #333;
+    text-decoration: none;
+    font-size: 1.2em;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    margin-bottom: 0.5em;
+    margin-left: 0.3em;
+}
+
+.step-one:hover {
+    background-color:rgb(18, 137, 18);
+}
+
+.step-label{
+    color: #1b5e20;
+    font-size: 15px;
+}
+
+/* Active Step Styling */
+.step-one.active {
+    background-color: rgb(31, 194, 31); /* Blue for the active step */
+    color: white;
+    box-shadow: 0 0 0 5px rgb(18, 137, 18); /* A ring effect */
+}
+
+.first-page {
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+.first-page.hidden {
+    display: none; /* Key class for hiding pages */
+}
+
+.first-page.hidden1 {
+    display: none; /* Key class for hiding pages */
+}
+
+#first-page{
+   display: none;
+}
+
+button{
+    background: rgb(31, 194, 31);
+    padding: 0.8em;
+    cursor: pointer;
+    margin-top: 5px;
+    color: white;
+
+}
+
+button:hover{
+    color: black;
+    border: 2px solid rgb(31, 194, 31);
+    background: none;
+}
+/* for section one of form */
+#year_group, #member_name, #student_id, #group_id{
+    width: 25em;
+}
+
+/* for section two of form */
+#site_location{
+   padding: 10px;
+    border: 1px solid #2e7d32;
+    width: 30em;
+    margin-bottom: 1px;
+    margin-left: 0.8em;
+    border-radius: 5px;
+     background: rgb(244, 241, 241) ;
+}
+
+#imageInput{
+    width: 27.5em;
+}
+
+#camera{
+    width: 27.5em;
+}
+
+#survey{
+    padding: 10px;
+    border: 1px solid #2e7d32;
+    width: 30em;
+    margin-left: 0.8em;
+    margin-bottom: 1em;
+    border-radius: 5px;
+     background: rgb(244, 241, 241) ;
+}
+
+
+/* for section three of form */
+#species, #count{
+    width: 25em;
+}
+
+#species{
+    padding: 10px;
+    border: 1px solid #2e7d32;
+    width: 30em;
+    margin: 5px;
+    margin-left: 10px;
+    background: rgb(244, 241, 241) ;
+}
+
+#site_habitat{
+    padding: 10px;
+    border: 1px solid #2e7d32;
+    width: 25.5em;
+    background: rgb(244, 241, 241) ;
+}
+
+#location{
+    width: 25em;
+}
+
+#new_species, #new_count{
+    width: 25em;
+}
+
+/* for section four of form */
+#temperature, #humidity, #rainfall, #wind_speed, #wind_direction{
+    width: 25em;
+}
+
+/*for section five of the form*/
+#light_intensity, #canopy_cover, #canopy_height{
+    width: 25em;
+}
+
+#notes{
+    width: 25em;
+    border: 2px solid black;
+    margin-left: 3em;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 15px;
+    margin-bottom: 5px;
 }
 
 option{
     background-color: #2e7d32;
 }
 
-/* ===== Responsive ===== */
-@media (max-width: 640px) {
-  .form-container {
-    padding: 1.5rem;
-    margin: 1rem;
-  }
-  .text{
-    position: absolute;
-    top: 20%;
-    padding-left: 40px;
-    color: white;
-    line-height: 1.6;
+.error{
+    color: red;
 }
+
+/* ===== Responsive ===== */
+@media (min-width: 700px) {
+    .text{
+    font-size: 25px;
+    position: absolute;
+    top: 15em;
+    padding-left: 50px;
+    color: white;
+    line-height: 2.6;
+}
+
+}
+@media (min-width: 800px) {
+    .text{
+    font-size: 25px;
+    position: absolute;
+    top: 10em;
+    padding-left: 50px;
+    color: white;
+    line-height: 2.6;
+}
+
 }
 
 
 /* ===== MOBILE ===== */
 @media (max-width: 640px) {
+ .form-container {
+    padding: 1.5rem;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    width: 100%;
+    max-width: 22em;
+    box-sizing: border-box;
+  }
+
+  .navbar{
+  width: 100%;
+  }
+
+  .text{
+    position: absolute;
+    top: 25%;
+    padding-left: 40px;
+    color: white;
+    line-height: 1.6;
+}
+
   .nav-container {
     flex-direction: column;
     align-items: flex-start;
@@ -195,6 +394,174 @@ option{
     font-size: 0.7rem;
     padding: 0.5rem 0;
   }
+
+  #preview-container{
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 2px; 
+    margin-top: 20px;
+}
+
+#gps-status{
+    font-size: 12px; 
+    margin: 0; 
+    color: blue;
+}
+
+.gps-btn{
+    font-size: 15px;
+    padding: 5px; 
+    margin: 0 auto;
+    display: block; 
+    color: black;
+    background-color: rgb(31, 194, 31);
+    width: 100%;
+}
+
+.bearing{
+    display: flex; 
+    gap: 10px;
+}
+
+/* form{
+    border: 2px solid black;
+    width: 19em;
+    display: block;
+    margin: 2em auto;
+    padding: 2em;
+} */
+
+input{
+    background: white ;
+    color: black;
+    padding: 10px;
+    margin: 10px;
+    border: 2px solid black;
+    font-size: 12px;
+}
+
+/* Stepper Navigation */
+.stepper-navigation {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid rgb(68, 179, 68);
+}
+
+.step-one {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: rgb(31, 194, 31);
+    color: #333;
+    text-decoration: none;
+    font-size: 1em;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+button{
+    background: rgb(31, 194, 31);
+    padding: 0.8em;
+    cursor: pointer;
+
+}
+
+/* for section one of form */
+#year_group, #member_name, #student_id{
+    width: 18em;
+}
+
+#group_id{
+    width: 18em;
+}
+
+/* for section two of form */
+#site_location{
+   padding: 10px;
+    border: 2px solid #2e7d32;
+    width: 18em;
+}
+
+#location{
+    width: 18em;
+}
+
+#latitude{
+  width: 7em;
+}
+
+#longitude{
+  width: 7em;
+}
+
+#imageInput{
+    width: 18em;
+}
+
+#camera{
+    width: 18em;
+}
+
+
+/* for section three of form */
+#species, #count{
+    width: 18em;
+}
+
+#new_species, #new_count{
+    width: 18em;
+}
+
+#survey, #site_habitat{
+    padding: 10px;
+    border: 2px solid #2e7d32;
+    width: 18em;
+}
+
+/* for section four of form */
+#temperature{
+    width: 17em;
+}
+
+#humidity{
+    width: 17em;
+}
+
+#rainfall{
+    width: 17em;
+}
+
+#wind_speed{
+    width: 17em;
+}
+
+#wind_direction{
+    width: 17em;
+}
+
+/*for section five of the form*/
+#light_intensity, #canopy_cover, #canopy_height{
+    width: 18em;
+}
+
+#notes{
+    width: 15em;
+    border: 2px solid black;
+    margin-left: 0.5em;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 15px;
+    margin-bottom: 5px;
+}
+
+.step-label{
+    font-size: 11px;
+}
+
 }
 
 /* ===== TABLE STYLES (DATA PAGE) ===== */
@@ -268,3 +635,25 @@ footer {
         font-size: 0.85rem;
     }
 }
+
+.option{
+    text-align: center; 
+    margin: 5px 0;}
+
+#camera{
+    display:none;
+}    
+
+.new{
+    border: 1px solid red;
+    padding: 10px;
+}
+
+div .manual_input{
+    border: 2px solid red;
+    padding: 10px;
+    width: 25em;
+}
+
+
+

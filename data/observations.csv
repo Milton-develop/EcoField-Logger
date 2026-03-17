@@ -1,0 +1,5 @@
+year_group,group_id,member_name,species_list,count_list,species_manual,count_manual,habitat,location,notes,latitude,longitude,survey_type,temperature,humidity,rainfall,wind_speed,wind_direction,light_intensity,canopy_cover,canopy_height,site_location,photo_files,student_id,timestamp
+2025/26,G01,Moses Milton,", Gerridae",", 20",", Agama Agama",", 10",Forest,Near the river,,5.663162,-0.180004,Water,35,54,98,120,128,14000,98,90,University of Ghana,,22177762,2026-02-22 18:55:42
+2025/26,G01,Moses Milton,", Gerridae",", 15",", Lizard",", 10",Open Grassland,Near the river,,5.653721,-0.188106,Water,23,54,76,90,108,12000,65,89,University of Ghana,,22177762,2026-02-23 12:40:29
+2025/26,G01,Moses Milton,", Papio anubis",", 20",", Panthera Leo",", 5",Forest,Forest edge,,5.554500,-0.190200,Biodiversity,32,78,65,98,192,12000,56,98,Shai Hills,,22242281,2026-03-03 14:31:31
+2025/26,G01,Moses Milton,", Uranomys ruddi",", 10",", Panthera Leo",", 20",Forest,Near the river,,5.653898,-0.187497,Small Mammals,34,68,78,200,126,12000,75,98,Shai Hills,,22177762,2026-03-12 11:40:17

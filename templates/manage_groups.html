@@ -13,10 +13,10 @@
     <div class="nav-container">
       <a href="/" class="nav-brand">EcoField Logger</a>
       <div class="nav-links">
-        <a href="/">Log</a>
-        <a href="/group">Data</a>
+        <!-- <a href="/">Log</a> -->
+        <!-- <a href="/group">Data</a> -->
         <a href="/manage_groups" class="active">Admin</a>
-        <a href="/help">Help</a>
+        <!-- <a href="/help">Help</a> -->
         <a href="/admin/logout">Logout</a>
       </div>
     </div>
@@ -26,6 +26,9 @@
   <div class="header">
     <h1 class="text">Admin Dashboard</h1>
     <p>Academic Year: <strong>{{ year }}</strong></p>
+     {% if message %}
+        <p class="success">{{ message }}</p>
+      {% endif %}
   </div>
 
   <main>
@@ -56,11 +59,11 @@
     </div>
 
     <!-- ===== ARCHIVE / RESET DATA ===== -->
-    <div class="help-container danger">
+    <div class="help-container" id="danger">
       <h2>End of Field Work (Admin Only)</h2>
       <p>
         Archive all data for <strong>{{ year }}</strong> and
-        allow group IDs to be reused next year.
+        allow group IDs to be reused next academic year.
       </p>
 
       <form method="POST" action="/admin/archive"
@@ -73,9 +76,6 @@
         </button>
       </form>
 
-      {% if message %}
-        <p class="success">{{ message }}</p>
-      {% endif %}
     </div>
 
   </main>

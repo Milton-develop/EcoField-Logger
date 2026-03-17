@@ -1,0 +1,12 @@
+year_group,group_id,member_name,species_list,count_list,species_manual,count_manual,habitat,location,notes,latitude,longitude,survey_type,temperature,humidity,rainfall,wind_speed,wind_direction,light_intensity,canopy_cover,canopy_height,site_location,photo_files,student_id,timestamp
+2025/26,G01,Eva,,,Lizard,20,Open Grassland,Forest edge,,5.663340,-0.180054,Water,23,9,45,90,150,12000,56,90,Shai Hills,,2023005,2026-02-12 01:26:04
+2025/26,G01,Eva,Praomys tullbergi,20,Lizard,50,Forest,Forest edge,,,,Small Mammals,23,45,7,9,120,1100,40,89,University of Ghana,,2023005,2026-02-12 01:28:05
+2025/26,G01,Eva,,,"Lizard, Grasshopper","50, 10",Open Grassland,Forest edge,,,,Water,23,54,76,89,24,12000,87,90,Shai Hills,,2023005,2026-02-12 01:46:37
+2025/26,G01,Eva,Musophaga violacea,20,,,Rocky,Near the river,,5.663158,-0.179885,Biodiversity,23,76,98,27,79,12000,65,87,Shai Hills,,2023005,2026-02-13 16:22:13
+2025/26,G01,Eva,"Papio anubis, Lybius dubius, Kobus kob kob","20, 10, 25","Grasshopper, Panthera Leo","23, 10",Forest,Near the river,,5.663690,-0.180085,Biodiversity,23,78,92,29,120,12000,54,12,Shai Hills,,2023005,2026-02-14 16:58:28
+2025/26,G01,Moses Milton,Hoplobatrachus occipitalis,10,Lizard,20,Forest,Near the river,,5.663152,-0.180034,Water,20,30,90,29,90,12000,50,20,Shai Hills,,22177762,2026-02-19 00:22:16
+2025/26,G01,Moses Milton,"Uranomys ruddi, Arvicanthis rufinus","10, 13",Bumblebee Bat,20,Forest,Forest edge,,5.663022,-0.179955,Small Mammals,27,54,78,200,79,14000,43,100,Shai Hills,20260219214152581761_Blueprint.jpg;20260219214152649177_Signature.jpg;20260219214153301249_Prime.jpg,22488260,2026-02-19 21:41:53
+2025/26,G01,Moses Milton,,,,,Forest,Shai Hills,,5.663224,-0.180020,Water,20,58,89,120,98,14000,78,130,Shai Hills,,22177762,2026-02-22 00:50:37
+2025/26,G01,Moses Milton,", Varanus niloticus, Corixidae",", 10, 15",,,Forest,Forest edge,,,,Water,32,67,89,120,329,14000,98,76,Shai Hills,,22,2026-02-22 00:53:43
+2025/26,G01,Moses Milton,", Pelomedusa subrufa",", 15",,,Forest,Near the river,,5.663222,-0.180005,Water,20,89,38,29,23,12000,56,98,Shai Hills,,22488260,2026-02-22 01:34:18
+2025/26,G01,Moses Milton,", Pelomedusa subrufa, Belostomatidae",", 10, 15",", Grasshopper, Bumblebee Bat",", 25, 30",Forest,Near the river,,5.663348,-0.180071,Water,20,34,89,200,89,15000,89,95,Shai Hills,,22488260,2026-02-22 01:36:58

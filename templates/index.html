@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#2ecc71">
   <title>EcoField Logger</title>
 </head>
 <body>
@@ -12,13 +14,14 @@
   <nav class="navbar">
     <div class="nav-container">
       <a href="/" class="nav-brand">EcoField Logger</a>
+      <h5>University of Ghana &bull; School of Biological Sciences</h5>
       <div class="nav-links">
         <a href="/" class="active">Log</a>
         <a href="/group">Data</a>
         <a href="/help">Help</a>
-        <a href="/manage_groups">Admin</a>
+        <!-- <a href="/manage_groups">Admin</a> -->
         <!-- <a href="/admin/archive">Archive</a> -->
-        <a href="/admin/view_archive">Archive</a>
+        <a href="/admin/view_archive">Admin</a>
 
       </div>
     </div>
@@ -27,68 +30,645 @@
   <!-- ===== HEADER ===== -->
   <div class="header">
     <img src="/static/images/header.jpg" alt="Students collecting data in the field" class="image">
-    <h1 class="text">Designed for fieldwork in the <br> Department of Biological Sciences</h1>
+    <div class="overlay"></div>
+    <h1 class="text"> Designed for fieldwork in the <br> Department of Animal Biology <br> And 
+        Conservation Science</h1>
   </div>
 
-  <!-- ===== CALL TO ACTION ===== -->
+  <!-- ===== CALL TO ACTION =====
   <div class="cta">
     <a href="#form" class="btn" id="btn">Start Logging</a>
       <a href="{{ url_for('go_to_stats') }}" class="btn">EcoField Stats Dashboard</a>
-  </div>
+  </div> -->
 
 
-  <!-- ===== FORM ===== -->
+  <!-- ===== FORM ===== enctype="multipart/form-data" -->
   <main>
-    <form action="/" method="POST" class="form-container" id="form">
+     <form action="" method="POST" class="form-container" id="form" enctype="multipart/form-data">
+
+       <h2>Data Collection Form</h2>
+       <div class="stepper-navigation">
+         <p>
+            <a href="#" class="step-one active" data-step="1">1</a>
+         <span class="step-label">Metadata</span>
+         </p>
+        <p>
+            <a href="#" class="step-one" data-step="2">2</a>
+            <span class="step-label">Location</span>
+        </p>
+       <p>
+         <a href="#" class="step-one" data-step="3">3</a>
+         <span class="step-label">Species</span>
+       </p>
+        <p>
+            <a href="#" class="step-one" data-step="4">4</a>
+            <span class="step-label">Records</span>
+        </p>
+       <p>
+         <a href="#" class="step-one" data-step="5">5</a>
+         <span class="step-label">Records</span>
+       </p>
+       </div>
       
-      <label for="year_group">Select Year Group</label>
-      <select name="year_group" id="year_group" required>
-        <option value=""></option>
-        <option value="Lv200">Level 200</option>
-        <option value="Lv300">Level 300</option>
-        <option value="Lv400">Level 400</option>
-      </select>
+      <div class="first-page active" id="step-1">
+        <h3>Researcher Information</h3>
+        <label for="year_group">Year Group</label>
+        <br>
+        <input type="text" name="year_group" id="year_group" placeholder="Enter Your Year Group" required class="input">
+        <br>
 
       <label for="group_id">Group ID</label>
+      <br>
       <input type="text" name="group_id" id="group_id" placeholder="Enter Your Group ID" class="input" required>
+      <br>
 
       <label for="member_name">Your Name</label>
+      <br>
       <input type="text" name="member_name" id="member_name" placeholder="Enter Your Name" class="input" required>
+      <br>
 
-      <label for="location">Location</label>
-      <input type="text" name="location" id="location" placeholder="Enter Your Location" class="input" required>
+      <label for="student_id">Student ID</label>
+      <br>
+      <input type="text" name="student_id" id="student_id" placeholder="Enter Your Student ID" class="input" required>
+      <br>
 
-      <label for="species">Species</label>
-      <input type="text" name="species" id="species" placeholder="Enter the Species Name" class="input" required>
+      <button class="next-btn" type="button" data-next-step="2">Next &rarr;</button>
 
-      <label for="count">Count</label>
-      <input type="number" name="count" id="count" placeholder="Number of Species" class="input" required>
+      </div>
 
-      <label for="habitat">Habitat Type</label>
-      <select name="habitat" id="habitat" required>
-        <option value=""></option>
-        <option value="grassland">Grassland</option>
-        <option value="forest">Forest</option>
-        <option value="rocky">Rocky</option>
-        <option value="other">Other</option>
+     <div id="step-2" class="first-page hidden">
+      <h3>Species & Site Details</h3>
+       <!-- TEXT LOCATION (Description) -->
+      <label for="location">Location Description</label>
+      <input type="text" name="location" id="location" placeholder="e.g. Near the large river bank" class="input" required>
+       <br>
+        <!-- <p>Location</p>
+      <select name="site_location" id="site_location" title="site_location">
+        <option value="">-- Select your site location --</option>
+        <option value="Shai Hills">Shai Hills</option>
+        <option value="University of Ghana">University of Ghana</option>
+        <option value="Achimota Forest">Achimota Forest</option>
+        <option value="Other">Other</option>
+      </select>
+      <br> -->
+
+      <p>Survey type</p>
+      <select name="survey_type" id="survey" title="survey">
+        <option value="">-- Select your survey type --</option>
+        <option value="Water">Water</option>
+        <option value="Habitat">Habitat</option>
+        <option value="Biodiversity">Biodiversity</option>
+        <option value="Parasitology & Public Health">Parasitology & Public Health</option>
+        <option value="Small Mammals">Small Mammals</option>
+        <option value="Large Mammals">Large Mammmals</option>
+        <option value="Entomology">Entomology</option>
+        <option value="Avifauna">Avifauna</option>
       </select>
 
-      <label for="notes">Notes</label>
-      <textarea name="notes" id="notes" placeholder="Enter Your Notes"></textarea>
+      <!-- <label for="survey_type">Select the survey type</label>
+<input list="survey_type" id="survey" name="survey_type" title="survey">
 
-      <button type="submit" class="btn1">Submit Observation</button>
-      <button type="reset" class="btn1">Clear Observation</button>
+<datalist id="survey_type">
+  <option value="Water">
+  <option value="Habitat">
+  <option value="Biodiversity">
+  <option value="Parasitology & Public Health">
+  <option value="Small Mammals">
+  <option value="Large Mammals">
+  <option value="Entomology">
+  <option value="Avifauna">
+</datalist> -->
+<br>      
+
+      <!-- GPS SECTION -->
+      <label>GPS Coordinates</label>
+      <br>
+      <button type="button" class="gps-btn" onclick="getGPS()">📍 Get Current Coordinates</button>
+      <p id="gps-status"></p>
+      
+      <div class="bearing">
+          <input type="text" name="latitude" id="latitude" class="input gps-input" placeholder="Latitude" readonly required>
+          <input type="text" name="longitude" id="longitude" class="input gps-input" placeholder="Longitude" readonly required>
+      </div>
+
+      <!-- IMAGE UPLOAD SECTION -->
+    <label for="imageInput">Field Photos</label>
+<div class="upload-controls">
+    <input type="file" name="photos" id="imageInput" accept="image/*" multiple class="input">
+    
+    <p class="option">- OR -</p>
+    
+    <label for="camera" class="gps-btn">📸 Take Live Photo</label>
+    <input type="file" name="photos" id="camera" accept="image/*" capture="environment" class="input">
+
+    <!-- <p class="option">- OR -</p>
+
+    <label for="video-camera" class="gps-btn">🎥 Record Live Video</label>
+<input type="file" name="field-video" id="video-camera" accept="video/*" capture="environment" class="input"> -->
+</div>
+
+<div id="preview-container"></div>
+
+      <button type="button" class="prev-btn" data-prev-step="1">&larr; Previous</button>
+      <button type="button" class="next-btn" data-next-step="3">Next &rarr;</button>
+     </div>
+
+     <div id="step-3" class="first-page hidden">
+       <h3>Species & Site Details</h3>
+          <p>Location</p>
+    <!-- Site Location -->
+<!-- Site Location -->
+<select name="site_location" id="site_location" title="site_location" onchange="toggleSpeciesSection()" required>
+  <option value="">-- Select your site location --</option>
+  <option value="Shai Hills">Shai Hills</option>
+  <option value="University of Ghana">University of Ghana</option>
+  <option value="Achimota Forest">Achimota Forest</option>
+  <option value="Other">Other</option>
+</select>
+<br>
+
+<div id="species-section" style="display: none;">
+
+  <h4>Species Entries</h4>
+
+  <div id="species-container">
+    <div class="species-block">
+      <label>Species</label>
+      <br>
+      <select name="species[]" class="input species-dropdown" id="species" title="species">
+        <option value="">-- Select Location & Survey Type First --</option>
+      </select>
+      <br>
+      <label>Number</label>
+      <input type="number" name="count[]" class="input" id="count" placeholder="Enter Number of Species">
+      <br>
+    </div>
+  </div>
+
+  <button type="button" onclick="addSpecies()">+ Add Species</button>
+
+  <!-- Collected Species Entries Display -->
+  <div id="species-saved-entries" style="margin-top: 15px;"></div>
+
+  <br><br>
+
+  <input type="checkbox" id="new_species_checkbox" title="new_species" onchange="toggleNewSpecies()">
+  <label for="new_species_checkbox">New Species</label>
+  <br>
+
+  <!-- New Species Section (Hidden by Default) -->
+  <div id="new-species-section" style="display: none;">
+    <h4>Add New Species</h4>
+
+    <div id="new-species-container">
+      <div class="new-species-block">
+        <label>Species Name</label>
+        <br>
+        <input type="text" name="species_manual" class="input" id="new_species" placeholder="Enter new species name">
+        <br>
+        <label>Number</label>
+        <br>
+        <input type="number" name="count_manual" class="input" id="new_count" placeholder="Enter number observed">
+        <br>
+      </div>
+    </div>
+
+    <button type="button" onclick="addNewSpecies()">+ Add Another New Species</button>
+
+    <!-- Collected New Species Entries Display -->
+    <div id="new-species-saved-entries" style="margin-top: 15px;"></div>
+  </div>
+</div>
+
+<br>
+ <label for="location">Select the habitat</label>
+      <input list="habitat" id="site_habitat" name="habitat" title="habitat">
+      <datalist id="habitat">
+        <option value="Open Grassland">
+        <option value="Wooded Grassland">
+        <option value="Forest">
+        <option value="Rocky">
+        <option value="Other">
+      </datalist>
+      <br>
+
+      <button type="button" class="prev-btn" data-prev-step="2">&larr; Previous</button>
+      <button type="button" class="next-btn" data-next-step="4">Next &rarr;</button>
+</div>
+
+<!-- <button type="button" onclick="newSpecies()">+ New Species</button> -->
+ <br>
+ 
+</div>
+
+      <!-- <p>Select the habitat:</p>
+      <select name="habitat" id="habitat" title="habitat">
+        <option value=""></option>
+      <option value="Open Grassland">Open Grassland</option>
+      <option value="Wooded Grassland">Wooded Grassland</option>
+      <option value="Forest">Forest</option>
+      <option value="Rocky">Rocky</option>
+      <option value="Other">Other</option>
+      </select>
+      <br> -->
+
+
+      <div id="step-4" class="first-page hidden">
+        <h3>Microhabitat Variables</h3>
+      <label for="temperature">Temperature (&deg;C)</label>
+      <br>
+      <input type="number" name="temperature" id="temperature" placeholder="Enter Temperature Recording" class="input" step="any" required>
+      <br>
+      <label for="humidity">Humidity (%)</label>
+      <br>
+      <input type="number" name="humidity" id="humidity" placeholder="Enter Humidity Recording" class="input" step="any" required>
+      <br>
+      <label for="rainfall">Rainfall (mm)</label>
+      <br>
+      <input type="number" name="rainfall" id="rainfall" placeholder="Enter Rainfall Recording" class="input" step="any" required>
+      <br>
+      <label for="wind speed">Wind Speed (m/s)</label>
+      <br>
+      <input type="number" name="wind_speed" id="wind_speed" placeholder="Enter Wind Speed Recording" class="input" step="any" required>
+      <br>
+      <!-- <label for="wind direction">Wind Direction (&deg;)</label>
+      <br>
+      <input type="number" name="wind_direction" id="wind_direction" placeholder="Enter Wind Direction Recording" class="input" step="any" required>
+      <br> -->
+      <label for="wind_direction">
+  Wind Direction: 
+  <span id="direction_val">0° (N)</span>
+</label>
+
+<input type="range" name="wind_direction" id="wind_direction"
+       min="0" max="360" step="1" value="0" class="input"
+       oninput="updateDirection(this.value)">
+<br>
+      <button type="button" class="prev-btn" data-prev-step="3">&larr; Previous</button>
+      <button type="button" class="next-btn" data-next-step="5">Next &rarr;</button>
+      </div>
+
+      <div id="step-5" class="first-page hidden">
+         <h3>Microhabitat Variables</h3>
+         <label for="light intensity">Light Intensity (lx)</label>
+         <br>
+      <input type="number" name="light_intensity" id="light_intensity" placeholder="Enter Light Intensity Recording" class="input" step="any" required>
+      <br>
+        <label for="canopy cover">Canopy Cover (%)</label>
+        <br>
+      <input type="number" name="canopy_cover" id="canopy_cover" placeholder="Enter Canopy Cover Recording" class="input" step="any" required>
+      <br>
+      <label for="canopy height">Canopy Height (m)</label>
+      <br>
+      <input type="number" name="canopy_height" id="canopy_height" placeholder="Enter Canopy Height Recording" class="input" step="any" required>
+      <br>
+       <label for="notes">Notes</label>
+       <br>
+      <textarea name="notes" id="notes" placeholder="Enter Your Notes" rows="5" cols="25"></textarea>
+      <br>
+      <button type="button" class="prev-btn" data-prev-step="4">&larr; Previous</button>
+      <button type="submit">Submit Observation</button>
+      <button type="reset" class="btn1" onclick="clearPreviews()">Clear Observation</button>
+      </div>
     </form>
   </main>
 
   <!-- ===== FOOTER ===== -->
   <footer>
-    <p>EcoField Logger by MiltonPixel — Department of Biological Sciences (UG)</p>
+    <p>EcoField Logger by MiltonPixel — Department of Animal Biology and Conservation Science (UG)</p>
   </footer>
 
 
   <script>
-    
+const imageInput = document.getElementById('imageInput');
+const cameraInput = document.getElementById('camera');
+const videoInput = document.getElementById('video-camera');
+const previewContainer = document.getElementById('preview-container');
+
+function handleFiles(files) {
+    Array.from(files).forEach(file => {
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            const wrapper = document.createElement('div');
+            wrapper.style.position = 'relative';
+
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.style.width = '80px';
+            img.style.height = '80px';
+            img.style.objectFit = 'cover';
+            img.style.borderRadius = '5px';
+
+            wrapper.appendChild(img);
+            previewContainer.appendChild(wrapper);
+        }
+
+        reader.readAsDataURL(file);
+    });
+}
+
+imageInput.addEventListener('change', function () {
+    handleFiles(this.files);
+});
+
+cameraInput.addEventListener('change', function () {
+    handleFiles(this.files);
+});
+
+function getGPS() {
+    const status = document.getElementById("gps-status");
+    const lat = document.getElementById("latitude");
+    const lon = document.getElementById("longitude");
+
+    status.innerText = "Locating...";
+
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                lat.value = position.coords.latitude.toFixed(6);
+                lon.value = position.coords.longitude.toFixed(6);
+                status.innerText = "Coordinates Found! ✅";
+                status.style.color = "green";
+            },
+            (error) => {
+                status.innerText = "Error: " + error.message;
+                status.style.color = "red";
+            }
+        );
+    } else {
+        status.innerText = "Geolocation is not supported by this browser.";
+    }
+}
+
+function clearPreviews() {
+    previewContainer.innerHTML = '';
+    document.getElementById("gps-status").innerText = "";
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const stepNumbers = document.querySelectorAll('.step-one');
+    const formSections = document.querySelectorAll('.first-page');
+    const navButtons = document.querySelectorAll('.next-btn, .prev-btn');
+
+    function showStep(stepToShow) {
+        formSections.forEach(section => {
+            section.classList.add('hidden');
+            section.classList.remove('active');
+        });
+        stepNumbers.forEach(step => {
+            step.classList.remove('active');
+        });
+
+        const targetSection = document.getElementById(`step-${stepToShow}`);
+        if (targetSection) {
+            targetSection.classList.remove('hidden');
+            targetSection.classList.add('active');
+        }
+
+        const targetStepNumber = document.querySelector(`.step-one[data-step="${stepToShow}"]`);
+        if (targetStepNumber) {
+            targetStepNumber.classList.add('active');
+        }
+    }
+
+    stepNumbers.forEach(step => {
+        step.addEventListener('click', (e) => {
+            e.preventDefault();
+            const stepToShow = e.currentTarget.getAttribute('data-step');
+            showStep(stepToShow);
+        });
+    });
+
+    navButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            const nextStep = e.currentTarget.getAttribute('data-next-step');
+            const prevStep = e.currentTarget.getAttribute('data-prev-step');
+
+            if (nextStep) {
+                showStep(nextStep);
+            } else if (prevStep) {
+                showStep(prevStep);
+            }
+        });
+    });
+});
+
+let ecoData = {};
+
+fetch('/static/data.json')
+    .then(response => response.json())
+    .then(data => {
+        ecoData = data;
+    });
+
+function updateSpeciesOptions(targetSelect = null) {
+    const location = document.getElementById('site_location').value;
+    const survey = document.getElementById('survey').value;
+
+    const dropdowns = targetSelect
+        ? [targetSelect]
+        : document.querySelectorAll('.species-dropdown');
+
+    dropdowns.forEach(select => {
+        const previousValue = select.value;
+
+        select.innerHTML = '<option value="">-- Select Species --</option>';
+
+        if (ecoData[location] && ecoData[location][survey]) {
+            ecoData[location][survey].forEach(item => {
+                const option = document.createElement('option');
+                option.value = item.scientific;
+                option.textContent = `${item.name} (${item.scientific})`;
+                select.appendChild(option);
+            });
+
+            const otherOption = document.createElement('option');
+            otherOption.value = "Other";
+            otherOption.textContent = "Other (New Species)";
+            select.appendChild(otherOption);
+
+            select.value = previousValue;
+        } else {
+            select.innerHTML = '<option value="">No data available for this selection</option>';
+        }
+    });
+}
+
+document.getElementById('site_location')
+    .addEventListener('change', () => updateSpeciesOptions());
+
+document.getElementById('survey')
+    .addEventListener('change', () => updateSpeciesOptions());
+
+document.addEventListener('change', function (e) {
+    if (e.target.classList.contains('species-dropdown')) {
+        toggleNewSpecies(e.target);
+    }
+});
+
+function toggleSpeciesSection() {
+    const siteLocation = document.getElementById('site_location').value;
+    const speciesSection = document.getElementById('species-section');
+
+    if (siteLocation !== '') {
+        speciesSection.style.display = 'block';
+    } else {
+        speciesSection.style.display = 'none';
+
+        const newSpeciesCheckbox = document.getElementById('new_species_checkbox');
+        const newSpeciesSection = document.getElementById('new-species-section');
+        newSpeciesCheckbox.checked = false;
+        newSpeciesSection.style.display = 'none';
+
+        resetNewSpeciesContainer();
+    }
+}
+
+function toggleNewSpecies() {
+    const checkbox = document.getElementById('new_species_checkbox');
+    const newSpeciesSection = document.getElementById('new-species-section');
+
+    if (checkbox.checked) {
+        newSpeciesSection.style.display = 'block';
+    } else {
+        newSpeciesSection.style.display = 'none';
+        resetNewSpeciesContainer();
+    }
+}
+
+function removeBlock(button, blockClass) {
+    const block = button.closest('.' + blockClass);
+    if (block) {
+        block.remove();
+    }
+}
+
+function resetNewSpeciesContainer() {
+    const container = document.getElementById('new-species-container');
+    container.innerHTML = `
+        <div class="new-species-block">
+            <label>Species Name</label>
+            <br>
+            <input type="text" name="species_manual" class="input" id="new_species" placeholder="Enter new species name">
+            <br>
+            <label>Number</label>
+            <br>
+            <input type="number" name="count_manual" class="input" id="new_count" placeholder="Enter number observed">
+            <hr>
+        </div>
+    `;
+}
+
+// ===== SINGLE addSpecies function - saves entry to collector div =====
+function addSpecies() {
+    const speciesSelect = document.getElementById('species');
+    const countInput = document.getElementById('count');
+    const container = document.getElementById('species-saved-entries');
+
+    if (!speciesSelect || !countInput || !container) return;
+
+    const speciesText = speciesSelect.options[speciesSelect.selectedIndex].text;
+    const speciesValue = speciesSelect.value;
+    const countValue = countInput.value;
+
+    if (!speciesValue || speciesValue === '') {
+        alert('Please select a species before adding.');
+        return;
+    }
+    if (!countValue || countValue <= 0) {
+        alert('Please enter a valid number.');
+        return;
+    }
+
+    const entryDiv = document.createElement('div');
+    entryDiv.className = 'species-saved-entry';
+    entryDiv.style.cssText = 'border: 1px solid #ccc; padding: 10px; margin-bottom: 8px; border-radius: 5px; background: #f9f9f9; display: flex; justify-content: space-between; align-items: center;';
+
+    entryDiv.innerHTML = `
+        <div>
+            <strong>Species:</strong> ${speciesText} &nbsp; | &nbsp; <strong>Number:</strong> ${countValue}
+            <input type="hidden" name="species[]" value="${speciesValue}">
+            <input type="hidden" name="count[]" value="${countValue}">
+        </div>
+        <button type="button" style="background: #e74c3c; color: #fff; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;" onclick="removeEntry(this)">✕ Remove</button>
+    `;
+
+    container.appendChild(entryDiv);
+
+    // Reset the ORIGINAL form fields only
+    speciesSelect.selectedIndex = 0;
+    countInput.value = '';
+}
+
+// ===== SINGLE addNewSpecies function - saves entry to collector div =====
+function addNewSpecies() {
+    const newSpeciesInput = document.getElementById('new_species');
+    const newCountInput = document.getElementById('new_count');
+    const savedList = document.getElementById('new-species-saved-entries');
+
+    if (!newSpeciesInput || !newCountInput || !savedList) {
+        console.error('New species elements not found:', {
+            new_species: newSpeciesInput,
+            new_count: newCountInput,
+            saved_list: savedList
+        });
+        return;
+    }
+
+    const newSpeciesName = newSpeciesInput.value.trim();
+    const newCountValue = newCountInput.value.trim();
+
+    if (!newSpeciesName || !newCountValue || parseInt(newCountValue) < 1) {
+        alert('Please enter new species name and valid count first');
+        return;
+    }
+
+    const entryElement = document.createElement('div');
+    entryElement.className = 'new-species-saved-entry';
+    entryElement.style.cssText = 'border: 1px solid #ccc; padding: 10px; margin-bottom: 8px; border-radius: 5px; background: #f8fff8; display: flex; justify-content: space-between; align-items: center;';
+
+    entryElement.innerHTML = `
+        <div>
+            <strong>🆕 Species:</strong> ${newSpeciesName} &nbsp; | &nbsp; <strong>Number:</strong> ${newCountValue}
+            <input type="hidden" name="species_manual" value="${newSpeciesName}">
+            <input type="hidden" name="count_manual" value="${newCountValue}">
+        </div>
+        <button type="button" style="background: #e74c3c; color: #fff; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;" onclick="removeEntry(this)">✕ Remove</button>
+    `;
+
+    savedList.appendChild(entryElement);
+
+    // Reset inputs
+    newSpeciesInput.value = '';
+    newCountInput.value = '';
+}
+
+// Universal remove function
+function removeEntry(btn) {
+    btn.parentElement.remove();
+}
+
+function updateDirection(val){
+  const dirs = ["N","NE","E","SE","S","SW","W","NW","N"];
+  let index = Math.round(val/45);
+  document.getElementById('direction_val').innerText =
+      val + "° (" + dirs[index] + ")";
+}
+
+  </script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(registration => {
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+          })
+          .catch(err => {
+            console.log('ServiceWorker registration failed: ', err);
+          });
+      });
+    }
   </script>
 </body>
 </html>

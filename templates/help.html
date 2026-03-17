@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/help.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
   <title>EcoField Logger – Help</title>
 </head>
 <body>
@@ -15,83 +15,154 @@
       <div class="nav-links">
         <a href="/">Log</a>
         <a href="/group">Data</a>
-        <a href="/manage_groups">Admin</a>
         <a href="/help" class="active">Help</a>
+        <!-- <a href="/admin/archive">Archive</a> -->
       </div>
     </div>
   </nav>
 
   <!-- ===== HEADER ===== -->
   <div class="header">
-    <h1 class="text">Help & Instructions</h1>
-    <p>How to use EcoField Logger effectively during fieldwork</p>
+    <img src="/static/images/header.jpg" alt="Students collecting data in the field" class="image">
+    <h1 class="text">Fieldwork Instructions &amp; User Guide</h1>
+  </div>
+
+  <!-- ===== CALL TO ACTION ===== -->
+  <div class="cta">
+    <a href="/" class="btn">Back to Logger</a>
+    <a href="{{ url_for('go_to_stats') }}" class="btn">EcoField Stats Dashboard</a>
   </div>
 
   <!-- ===== HELP CONTENT ===== -->
   <main class="help-container">
 
     <section>
-      <h2>Logging Observations</h2>
+      <h2>1. Using the 5‑Step Logger</h2>
       <ul>
-        <li>Go to the <strong>Log</strong> page.</li>
-        <li>Fill in all required fields accurately.</li>
-        <li>Use the correct <strong>Group ID</strong> assigned to your group.</li>
-        <li>Click <strong>Submit Observation</strong> to save your entry.</li>
+        <li>
+          <strong>Step 1 – Researcher Information</strong>
+          <ul>
+            <li>Enter your <strong>Year Group</strong> (e.g. 2025/26).</li>
+            <li>Enter the correct <strong>Group ID</strong> exactly as provided by your lecturer.</li>
+            <li>Enter your <strong>Name</strong> as it appears on the class register.</li>
+          </ul>
+        </li>
+
+        <li>
+          <strong>Step 2 – Location, GPS &amp; Photos</strong>
+          <ul>
+            <li>Provide a short <strong>Location Description</strong> (e.g. “Near large river bank, south transect”).</li>
+            <li>Click <strong>📍 Get Current Coordinates</strong> to autofill <em>Latitude</em> and <em>Longitude</em>.</li>
+            <li>Allow your browser to use <strong>Location Services</strong> and make sure you are on <code>https://</code>.</li>
+            <li>Upload one or more <strong>Field Photos</strong> of the site and/or species. Thumbnails will appear in the preview grid.</li>
+          </ul>
+        </li>
+
+        <li>
+          <strong>Step 3 – Species &amp; Survey Type</strong>
+          <ul>
+            <li>Enter the <strong>Species</strong> name (use the most accurate ID you can).</li>
+            <li>Record the <strong>Number</strong> of individuals observed.</li>
+            <li>Select the primary <strong>Habitat</strong> (Grassland, Forest, Rocky, Other).</li>
+            <li>Select the <strong>Survey Type</strong> (Water, Habitat, or Biodiversity) that best matches your activity.</li>
+          </ul>
+        </li>
+
+        <li>
+          <strong>Step 4 – Microhabitat: Physical Conditions</strong>
+          <ul>
+            <li><strong>Temperature (°C)</strong></li>
+            <li><strong>Humidity (%)</strong></li>
+            <li><strong>Rainfall (mm)</strong> – if measured during your survey period.</li>
+            <li><strong>Wind Speed (m/s)</strong></li>
+            <li><strong>Wind Direction (°)</strong> – in degrees from North if available.</li>
+          </ul>
+        </li>
+
+        <li>
+          <strong>Step 5 – Microhabitat: Light &amp; Vegetation</strong>
+          <ul>
+            <li><strong>Light Intensity (lx)</strong></li>
+            <li><strong>Canopy Cover (%)</strong> – estimated percentage of sky covered by vegetation.</li>
+            <li><strong>Canopy Height (m)</strong></li>
+            <li>Use the <strong>Notes</strong> box for extra observations (e.g. behaviour, disturbances, unusual weather, sampling method).</li>
+          </ul>
+        </li>
+
+        <li>
+          <strong>Step Navigation</strong>
+          <ul>
+            <li>Use the numbered circles <strong>1–5</strong> at the top of the form or the <strong>Next</strong>/<strong>Previous</strong> buttons to move between steps.</li>
+            <li>Review all entries before clicking <strong>Submit Observation</strong> on Step 5.</li>
+          </ul>
+        </li>
       </ul>
     </section>
 
     <section>
-      <h2>Viewing Group Data (Data Page)</h2>
+      <h2>2. Measurement Units Reference</h2>
+      <p>To keep the dataset consistent across all groups, use these units for every measurement:</p>
+      <table border="1" style="width:100%; border-collapse: collapse; margin-top:10px;">
+        <tr style="background-color: #f2f2f2;">
+          <th>Variable</th>
+          <th>Required Unit</th>
+        </tr>
+        <tr><td>Temperature</td><td>Degrees Celsius (°C)</td></tr>
+        <tr><td>Humidity</td><td>Percentage (%)</td></tr>
+        <tr><td>Rainfall</td><td>Millimeters (mm)</td></tr>
+        <tr><td>Wind Speed</td><td>Meters per second (m/s)</td></tr>
+        <tr><td>Wind Direction</td><td>Degrees (°)</td></tr>
+        <tr><td>Light Intensity</td><td>Lux (lx)</td></tr>
+        <tr><td>Canopy Cover</td><td>Percentage (%)</td></tr>
+        <tr><td>Canopy Height</td><td>Meters (m)</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>3. Viewing &amp; Downloading Data</h2>
       <ul>
-        <li>Click <strong>Data</strong> in the navbar.</li>
-        <li>Enter your <strong>Group ID</strong> and <strong>Password</strong> to log in.</li>
-        <li>Only your group’s observations will be visible.</li>
-        <li>You can <strong>Logout</strong> to end your session; this resets the page and requires password again.</li>
-        <li>After fieldwork, data can be archived by the admin for reuse of group IDs next year.</li>
+        <li>Go to the <strong>Data</strong> page and log in with your <strong>Group Password</strong>.</li>
+        <li>Use filters (e.g. group, date, habitat) to focus on your own records or compare across groups.</li>
+        <li><strong>Image viewing:</strong> Click on photo thumbnails in the table to open full‑size field images.</li>
+        <li><strong>Export:</strong> Use <strong>Download Filtered CSV</strong> to export the visible dataset for analysis and your final report.</li>
       </ul>
     </section>
 
     <section>
-      <h2>Downloading Group Data</h2>
+      <h2>4. Troubleshooting GPS, Uploads &amp; Forms</h2>
       <ul>
-        <li>After logging in, click <strong>Download Filtered CSV</strong>.</li>
-        <li>Only your group’s data will be downloaded.</li>
-        <li>The file is saved in <strong>CSV format</strong> for easy analysis.</li>
+        <li>
+          <strong>GPS issues:</strong>
+          <ul>
+            <li>Ensure <strong>Location Services</strong> are enabled on your phone/tablet and for your browser.</li>
+            <li>Confirm you are using the secure site: <code>https://</code> (not <code>http://</code>).</li>
+            <li>Move to a more open area if you are under dense canopy, near tall buildings, or indoors.</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Upload issues:</strong>
+          <ul>
+            <li>If the page is slow or “not responding” after submission, reduce the number of images or choose smaller files.</li>
+            <li>Check that your internet connection is stable before submitting.</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Form navigation:</strong>
+          <ul>
+            <li>Use <strong>Previous</strong> and <strong>Next</strong> to review earlier steps without losing data.</li>
+            <li>If an error occurs, copy long text from the <strong>Notes</strong> field before refreshing the page.</li>
+          </ul>
+        </li>
       </ul>
     </section>
 
     <section>
-      <h2>Using the Eco-Stats Dashboard</h2>
-<ul>
-    <li><strong>Access:</strong> Click the <strong>Eco-Stats Dashboard</strong> link above the form to open the visualization tool.</li>
-    <li><strong>Live Analysis:</strong> The dashboard automatically reads your submitted logs and updates charts in real-time.</li>
-    <li><strong>Key Metrics:</strong>
-        <ul>
-            <li><strong>Simpson's Index:</strong> Automatically calculates biodiversity (0 to 1 scale) to determine ecosystem health.</li>
-            <li><strong>Habitat Comparison:</strong> View side-by-side graphs comparing species abundance in Forests, Grasslands, etc.</li>
-        </ul>
-    </li>
-    <li><strong>Troubleshooting:</strong> If the dashboard is empty, ensure you have submitted at least one observation in the Logger first.</li>
-</ul>
-    </section>
-
-    <section>
-      <h2>Managing Groups (Admin Only)</h2>
+      <h2>5. Dashboard, Archive &amp; Analysis</h2>
       <ul>
-        <li>The <strong>Admin Dashboard</strong> allows adding new group IDs and passwords.</li>
-        <li>Admins can archive data at the end of fieldwork to allow reuse of group numbers next year.</li>
-        <li>All credentials are stored securely in <code>groups.csv</code>.</li>
-      </ul>
-    </section>
-
-    <section>
-      <h2>Best Practices</h2>
-      <ul>
-        <li>Double-check species names for accuracy.</li>
-        <li>Use the notes field for behavior or unusual sightings.</li>
-        <li>Submit observations promptly after fieldwork.</li>
-        <li>Do not share your group password with other groups.</li>
-        <li>Admins should archive data only after the fieldwork period is complete.</li>
+        <li>The <strong>EcoField Stats Dashboard</strong> summarises class data in real time based on your submissions.</li>
+        <li>It includes metrics such as <strong>Simpson’s Diversity Index</strong> calculated from your <em>Species</em> and <em>Count</em> inputs.</li>
+        <li>Use the dashboard to compare your group’s findings with the overall class and to support the data analysis section of your report.</li>
+        <li>The <strong>Archive</strong> link in the navigation bar may provide access to past cohorts’ datasets (if enabled by your instructor).</li>
       </ul>
     </section>
 
@@ -99,7 +170,7 @@
 
   <!-- ===== FOOTER ===== -->
   <footer>
-    <p>EcoField Logger • Built by MiltonPixel for field-based biological studies</p>
+    <p>EcoField Logger by MiltonPixel — Department of Biological Sciences (UG)</p>
   </footer>
 
 </body>

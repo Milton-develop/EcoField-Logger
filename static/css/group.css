@@ -11,6 +11,7 @@ table {
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+    min-width: 1200px; /* Ensures the table doesn't squash */
 }
 
 thead {
@@ -136,4 +137,95 @@ footer {
 
 .btn:hover {
   background-color: #1b5e20;
+}
+
+.error{
+  text-align:center; 
+  padding:2rem;
+}
+
+.photo-cell {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.photo-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 80px;
+}
+
+.photo-thumb {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-bottom: 4px;
+  border: 1px solid #ccc;
+}
+
+.photo-links a {
+  display: block;
+  font-size: 0.75rem;
+  text-decoration: none;
+  color: #0077cc;
+}
+
+.photo-links a + a {
+  margin-top: 2px;
+}
+
+.photo-links a:hover {
+  text-decoration: underline;
+}
+
+.species{
+  list-style: none; 
+  padding: 0; 
+  margin: 0;
+  width: 10em;
+}
+
+.species-manual{
+  list-style: none; 
+  padding: 0; 
+  margin: 0;
+  width: 10em;
+  color: #2d6a4f;
+}
+
+.warning-banner{
+  background-color: #fff3cd; 
+  border-left: 5px solid #ffca28; 
+  padding: 15px; 
+  margin-bottom: 20px; 
+  border-radius: 4px;
+}
+
+.warning{
+  display: flex; 
+  align-items: center;
+}
+
+.warning-icon{
+  font-size: 24px;
+   margin-right: 15px;
+}
+
+.new{
+  color: #2d6a4f; 
+  font-weight: bold;
+}
+
+.notice-title{
+  margin: 0; 
+  color: #856404;
+}
+
+.notice{
+  margin: 5px 0 0; 
+  color: #856404; 
+  font-size: 0.95em;
 }

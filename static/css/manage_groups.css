@@ -137,3 +137,12 @@ footer {
     text-decoration: none;
 }
 }
+
+.error{
+    color: red;
+}
+
+#danger{
+    background: rgb(247, 227, 227);
+    border: 2px solid red;
+}
