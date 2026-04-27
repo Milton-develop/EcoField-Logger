@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/manage_groups.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/group.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <title>Admin Dashboard</title>
+</head>
+<body>
+
+  <!-- ===== NAVIGATION ===== -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="/admin/view_archive" class="nav-brand">EcoField Logger</a>
+      <h2 class='user'>ADMIN PORTAL</h2>
+      <div class="nav-links">
+        <a href="/manage_groups" class="active">Manage</a>
+        <a href="/admin/view_groups">View Groups</a>
+        <a href="/add_species">New Species</a>
+        <a href="/admin/logout" class="btn-logout">Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== HEADER ===== -->
+  <div class="header">
+    <h1 class="text">Survey Management</h1>
+    <p>Academic Year: <strong>{{ year }}</strong></p>
+     {% if message %}
+        <p class="success">{{ message }}</p>
+      {% endif %}
+  </div>
+
+  <main>
+
+    <!-- ===== ADD NEW GROUP ===== -->
+    <div class="help-container" id="safety">
+      <h2>Add New Group</h2>
+
+      {% if error %}
+        <p class="error">{{ error }}</p>
+      {% endif %}
+      {% if success %}
+        <p class="success">{{ success }}</p>
+      {% endif %}
+
+      <form method="POST" action="/manage_groups">
+        <label for="admin_password">Admin Password</label>
+        <input type="password" name="admin_password" id="admin_password" required>
+
+        <label for="group_id">Group ID</label>
+        <input type="text" name="group_id" id="group_id" required>
+
+        <label for="password">Group Password</label>
+        <input type="text" name="password" id="password" required>
+
+        <button type="submit" class="btn">Add Group</button>
+      </form>
+    </div>
+
+    <!-- ===== CHANGE ADMIN PASSWORD ===== -->
+    <div class="help-container" id="password_change">
+      <h2>Change Admin Password</h2>
+      <form method="POST" action="/admin/change_password">
+        <label for="current_password">Current Password</label>
+        <input type="password" name="current_password" id="current_password" required>
+
+        <label for="new_password">New Password</label>
+        <input type="password" name="new_password" id="new_password" required minlength="6">
+
+        <label for="confirm_password">Confirm New Password</label>
+        <input type="password" name="confirm_password" id="confirm_password" required minlength="6">
+
+        <button type="submit" class="btn">Update Password</button>
+      </form>
+    </div>
+
+    <!-- ===== ARCHIVE / RESET DATA ===== -->
+    <div class="help-container" id="danger">
+      <h2>End of Field Work (Admin Only)</h2>
+      <p>
+        Archive all data for <strong>{{ year }}</strong> and
+        download compiled data from all groups for admin report.
+      </p>
+
+      <form method="POST" action="/admin/archive"
+            onsubmit="return confirm('Are you sure? This cannot be undone.');">
+        <label for="archive_password">Admin Password</label>
+        <input type="password" name="admin_password" id="archive_password" required>
+
+        <button type="submit" class="danger-btn">
+          Archive & Reset Data
+        </button>
+      </form>
+
+    </div>
+
+  </main>
+
+</body>
+</html>

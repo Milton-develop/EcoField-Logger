@@ -1,0 +1,126 @@
+# 🌿 EcoField Logger & Stats Suite
+
+A complete field data management system designed for ecological fieldwork. This suite consists of two integrated applications: a **Data Logging Platform** for students to record observations and a **Statistical Dashboard** for real-time biodiversity analysis.
+
+---
+
+## 🚀 Features
+
+### 1. EcoField Logger (Flask App)
+*   **Secure Logging:** Group-based login system for organized data collection.
+*   **Field Data Entry:** Records Species, Count, Habitat, Location, GPS, and Field Notes.
+*   **Data Validation:** Ensures required fields (like Group ID and Species Name) are correct.
+*   **Admin Dashboard:**
+    *   Create and manage student groups.
+    *   Archive datasets at the end of the season.
+    *   Download master CSV files.
+*   **Export:** Students can download their specific group's data as CSV.
+
+### 2. Eco-Stats Dashboard (Streamlit App)
+*   **Visual Analysis:** Reads the logged CSV data to generate instant charts.
+*   **Biodiversity Metrics:** Automatically calculates **Simpson’s Index of Diversity**.
+*   **Habitat Comparison:** Side-by-side bar charts comparing Forest vs. Grassland vs. Rocky areas.
+*   **Species Richness:** Visualizes abundance and distribution via interactive Plotly charts.
+
+---
+
+## 🛠️ Tech Stack
+
+*   **Backend:** Python (Flask)
+*   **Analysis Engine:** Python (Pandas, Plotly)
+*   **Frontend:** HTML5, CSS3, Streamlit
+*   **Data Storage:** CSV (Flat-file database for portability)
+
+---
+
+## 📂 Project Structure
+
+```text
+EcoField_Logger/
+│
+├── app.py                 # The Data Logging Application (Flask)
+├── eco_stats.py           # The Analysis Dashboard (Streamlit)
+├── requirements.txt       # Dependencies for both apps
+│
+├── static/                # CSS and Images
+├── templates/             # HTML files (index.html, login.html, etc.)
+│
+└── data/                  # Storage folder (Created automatically)
+    ├── observations.csv   # The main database
+    ├── groups.csv         # User credentials
+    └── archive/           # Old datasets
+```
+
+---
+
+## ⚙️ Installation & Setup
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/your-username/ecofield-logger.git
+cd ecofield-logger
+```
+
+### 2. Install Dependencies
+Make sure you have Python installed, then run:
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## 🏃‍♂️ How to Run the System
+
+Since this system has two parts (The Logger and The Dashboard), you need to run them in **separate terminals** to use them simultaneously locally.
+
+### Terminal 1: Start the Logger (Flask)
+This runs the website where students submit data.
+```bash
+python app.py
+```
+*   **Access at:** `http://localhost:5002` (or 5000)
+
+### Terminal 2: Start the Dashboard (Streamlit)
+This runs the visualization tool.
+```bash
+python -m streamlit run eco_stats.py
+```
+*   **Access at:** `http://localhost:8501`
+
+---
+
+## 🧪 How to Use
+
+### For Students (Field Work)
+1.  Open the **Logger App** (`app.py`).
+2.  Enter your **Year Group**, **Group ID**, and observation details.
+3.  Log your observations (e.g., "Robin", Count: 5, Habitat: Forest).
+4.  Click **Submit**.
+5.  To view your group's data, click **Data** in the navbar and login with your Group ID and Password.
+
+### For Analysis (Lab Work)
+1.  Click the **"Eco-Stats Dashboard"** link in the navbar (or open the Streamlit URL).
+2.  The dashboard will automatically load the data from the CSV.
+3.  View the **Simpson's Index** graphs to see which habitat is more diverse.
+4.  Use the charts directly in your lab reports.
+
+### For Admins (Instructors)
+1.  Go to `/admin/login` on the Flask app.
+2.  **Default Password:** `fieldadmin2026` (Configured in `app.py`).
+3.  Use the dashboard to add new student groups or archive old data for the next academic year.
+
+---
+
+## ☁️ Deployment
+
+This system is ready for cloud deployment (e.g., Render, Railway, Heroku).
+
+*   **Production Server:** Uses `gunicorn` (included in requirements.txt).
+*   **Start Command:** `gunicorn app:app`
+*   **Port Handling:** The app is configured to listen to the `$PORT` environment variable automatically.
+
+---
+
+## 📜 License
+This project is open-source and available for educational use.
+```

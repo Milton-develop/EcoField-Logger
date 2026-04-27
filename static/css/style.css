@@ -1,0 +1,887 @@
+body{
+    /* background-color: #040c12; 
+    color: #ffffff; */
+    background-color: white;
+    color: #2e7d32;
+    margin: 0;
+    padding: 0;
+}
+
+/* ===== NAV BAR ===== */
+.navbar {
+  /* position: sticky; */
+  top: 0;
+  z-index: 1000;
+  /* background-color: #ffffff; */
+  border-bottom: 1px solid #2e7d32;
+  padding: 0.5rem 1rem;
+}
+
+.nav-container {
+  /* max-width: 1100px; */
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* App name / logo */
+.nav-brand {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #2e7d32;
+  text-decoration: none;
+  padding: 0;
+}
+
+/* Nav links */
+.nav-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.nav-links a {
+  text-decoration: none;
+  font-size: 0.9rem;
+  color: #46ba4c;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+/* Hover */
+.nav-links a:hover {
+  background-color: #e8f5e9;
+  color: #1b5e20;
+}
+
+/* Active page */
+.nav-links a.active {
+  background-color: #2e7d32;
+  color: #ffffff;
+}
+
+.header{
+    width: 100%;
+    height: 400px;
+    padding: 0px;
+    padding-bottom: 10px;
+    padding-top: 20px;
+    background: 
+  radial-gradient(circle, rgba(0,0,0,0.2) 0%, rgba(4, 12, 18, 0.9) 100%), 
+  url('/static/images/header 1.jpg');
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: left;
+  color: white;
+  animation: bgZoom 6s ease-in-out infinite alternate;
+}
+
+@keyframes bgZoom {
+        0% {
+            background-size: 100%;
+            background-position: center;
+        }
+        100% {
+            background-size: 110%;
+            background-position: top center;
+        }
+    }
+
+button:hover {
+  background-color: #45944b;
+}
+
+#preview-container{
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 10px; 
+    margin-top: 15px;
+}
+
+#gps-status{
+    font-size: 12px; 
+    margin: 0; 
+    color: blue;
+}
+
+.gps-btn{
+    font-size: 15px;
+    padding: 5px; 
+    margin: 0 auto;
+    display: block; 
+    color: white;
+    background-color: rgb(31, 194, 31);
+    width: 100%;
+    text-align: center;
+}
+
+.bearing{
+    display: flex; 
+    gap: 10px;
+}
+
+.form-container{
+    border-top: 10px solid #2e7d32;;
+    width: 30em;
+    border-radius: 15px;
+    display: block;
+    margin: 0 auto;
+    padding: 20px;
+    border-left: 1px solid #2e7d32;
+    border-right: 1px solid #2e7d32;
+    border-bottom: 1px solid #2e7d32;
+    background: white ;
+}
+
+.head_text{
+    text-align: center;
+}
+
+h2{
+text-align: center;
+}
+
+h3{
+    background:  rgb(204, 240, 204);
+    padding: 10px;
+    border-radius: 5px;
+    border-left: 5px solid #2e7d32;
+}
+
+input{
+    background: rgb(244, 241, 241) ;
+    color: black;
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid #2e7d32;
+    font-size: 15px;
+    border-radius: 5px;
+    padding-left: 15px;
+}
+
+/* Stepper Navigation */
+.stepper-navigation {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    background: rgb(204, 240, 204);
+    border-radius: 10px;
+    padding-top: 10px;
+}
+
+.step-one {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgb(31, 194, 31);
+    color: #333;
+    text-decoration: none;
+    font-size: 1.2em;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    margin-bottom: 0.5em;
+    margin-left: 0.3em;
+}
+
+.step-one:hover {
+    background-color:rgb(18, 137, 18);
+}
+
+.step-label{
+    color: #1b5e20;
+    font-size: 15px;
+}
+
+/* Active Step Styling */
+.step-one.active {
+    background-color: rgb(31, 194, 31); /* Blue for the active step */
+    color: white;
+    box-shadow: 0 0 0 5px rgb(18, 137, 18); /* A ring effect */
+}
+
+.first-page {
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+.first-page.hidden {
+    display: none; /* Key class for hiding pages */
+}
+
+.first-page.hidden1 {
+    display: none; /* Key class for hiding pages */
+}
+
+#first-page{
+   display: none;
+}
+
+button{
+    background: rgb(31, 194, 31);
+    padding: 0.8em;
+    cursor: pointer;
+    margin-top: 5px;
+    color: white;
+
+}
+
+button:hover{
+    color: black;
+    border: 2px solid rgb(31, 194, 31);
+    background: none;
+}
+/* for section one of form */
+#year_group, #member_name, #student_id, #group_id{
+    width: 25em;
+}
+
+/* for section two of form */
+#site_location{
+   padding: 10px;
+    border: 1px solid #2e7d32;
+    width: 30em;
+    margin-bottom: 1px;
+    margin-left: 0.8em;
+    border-radius: 5px;
+     background: rgb(244, 241, 241) ;
+}
+
+#imageInput{
+    width: 27.5em;
+}
+
+#camera{
+    width: 27.5em;
+}
+
+#survey{
+    padding: 10px;
+    border: 1px solid #2e7d32;
+    width: 30em;
+    margin-left: 0.8em;
+    margin-bottom: 1em;
+    border-radius: 5px;
+     background: rgb(244, 241, 241) ;
+}
+
+
+/* for section three of form */
+#species, #count{
+    width: 25em;
+}
+
+#species{
+    padding: 10px;
+    border: 1px solid #2e7d32;
+    width: 30em;
+    margin: 5px;
+    margin-left: 10px;
+    background: rgb(244, 241, 241) ;
+}
+
+#site_habitat{
+    padding: 10px;
+    border: 1px solid #2e7d32;
+    width: 25.5em;
+    background: rgb(244, 241, 241) ;
+}
+
+#location{
+    width: 25em;
+}
+
+#new_species, #new_count{
+    width: 25em;
+}
+
+/* for section four of form */
+#temperature, #humidity, #rainfall, #wind_speed, #wind_direction{
+    width: 25em;
+}
+
+/*for section five of the form*/
+#light_intensity, #canopy_cover, #canopy_height{
+    width: 25em;
+}
+
+#notes{
+    width: 25em;
+    border: 2px solid black;
+    margin-left: 3em;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 15px;
+    margin-bottom: 5px;
+}
+
+option{
+    background-color: #2e7d32;
+}
+
+.error{
+    color: red;
+}
+
+/* ===== TABLE STYLES (DATA PAGE) ===== */
+.table-container {
+    overflow-x: auto;
+    margin-top: 2rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+}
+
+thead {
+    background-color: #1b5e20;
+    color: white;
+}
+
+thead th {
+    padding: 0.75rem;
+    text-align: left;
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+
+tbody td {
+    padding: 0.7rem;
+    font-size: 0.9rem;
+    border-bottom: 1px solid #e0f2f1;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f1f8f3;
+}
+
+tbody tr:hover {
+    background-color: #dcedc8;
+}
+
+/* ===== FOOTER ===== */
+footer {
+    text-align: center;
+    padding: 0.5rem 0.7rem;
+    background-color: #1b5e20;
+    color: #e8f5e9;
+    margin-top: 3rem;
+    font-size: 0.85rem;
+}
+
+.btn{
+    background-color: #2e7d32;
+    padding: 10px;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-left: 10px;
+}
+
+.text{
+    text-align: center;
+}
+
+.idea{
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+}
+
+.core_idea{
+    width: 30em;
+    padding-left: 20px;
+    line-height: 1.6;
+}
+
+.core_image{
+    width: 500px;
+    padding-right: 30px;
+    height: 350px;
+}
+
+
+
+/* ===== MOBILE ===== */
+@media (max-width: 640px) {
+  .form-container {
+    width: 95% !important;
+    max-width: none;
+    margin: 10px auto;
+    padding: 1rem;
+    border-radius: 8px;
+  }
+
+  /* 4. Inputs & Selects - The "Full Width" Rule */
+  /* This targets all your IDs at once and makes them responsive */
+  input[type="text"], 
+  input[type="number"], 
+  input[type="file"],
+  select, 
+  textarea,
+  #year_group, #member_name, #student_id, #group_id,
+  #site_location, #location, #imageInput, #camera,
+  #species, #count, #new_species, #new_count,
+  #survey, #site_habitat, #temperature, #humidity,
+  #rainfall, #wind_speed, #wind_direction,
+  #light_intensity, #canopy_cover, #canopy_height {
+    width: 100% !important; /* Force full width */
+    max-width: 100%;
+    margin: 8px 0 !important; /* Vertical spacing only */
+    box-sizing: border-box; /* Includes padding in the width calculation */
+    font-size: 16px !important; /* Prevents iOS "Auto-zoom" on focus */
+  }
+
+  .navbar{
+  /* width: 100%; */
+  /* max-width: 22em; */
+  border-bottom: none;
+  }
+
+  .image{
+    width: 100%;
+    padding-bottom: 0;
+    padding-top: 20px;
+    opacity: 0.9;
+}
+
+  .nav-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .nav-links {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .nav-links a {
+    flex: 1;
+    text-align: center;
+    font-size: 0.8rem;
+    padding: 0.5rem 0;
+  }
+
+  #preview-container{
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 2px; 
+    margin-top: 20px;
+}
+
+#gps-status{
+    font-size: 12px; 
+    margin: 0; 
+    color: blue;
+}
+
+.gps-btn{
+    font-size: 15px;
+    padding: 5px; 
+    margin: 0 auto;
+    display: block; 
+    color: black;
+    background-color: rgb(31, 194, 31);
+    width: 100%;
+}
+
+.bearing{
+    display: flex; 
+    gap: 10px;
+}
+
+input{
+    background: white ;
+    color: black;
+    padding: 10px;
+    margin: 10px;
+    border: 2px solid black;
+    font-size: 12px;
+}
+
+/* Stepper Navigation */
+.stepper-navigation {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid rgb(68, 179, 68);
+}
+
+.step-one {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: rgb(31, 194, 31);
+    color: #333;
+    text-decoration: none;
+    font-size: 1em;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+button{
+    background: rgb(31, 194, 31);
+    padding: 0.8em;
+    cursor: pointer;
+
+}
+
+/* for section one of form */
+#year_group, #member_name, #student_id{
+    width: 18em;
+}
+
+#group_id{
+    width: 18em;
+}
+
+/* for section two of form */
+#site_location{
+   padding: 10px;
+    border: 2px solid #2e7d32;
+    width: 18em;
+}
+
+#location{
+    width: 18em;
+}
+
+#latitude{
+  width: 7em;
+}
+
+#longitude{
+  width: 7em;
+}
+
+#imageInput{
+    width: 18em;
+}
+
+#camera{
+    width: 18em;
+}
+
+
+/* for section three of form */
+#species, #count{
+    width: 18em;
+}
+
+#new_species, #new_count{
+    width: 18em;
+}
+
+#survey, #site_habitat{
+    padding: 10px;
+    border: 2px solid #2e7d32;
+    width: 18em;
+}
+
+/* for section four of form */
+#temperature{
+    width: 17em;
+}
+
+#humidity{
+    width: 17em;
+}
+
+#rainfall{
+    width: 17em;
+}
+
+#wind_speed{
+    width: 17em;
+}
+
+#wind_direction{
+    width: 17em;
+}
+
+/*for section five of the form*/
+#light_intensity, #canopy_cover, #canopy_height{
+    width: 18em;
+}
+
+#notes{
+    width: 15em;
+    border: 2px solid black;
+    margin-left: 0.5em;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 15px;
+    margin-bottom: 5px;
+}
+
+.step-label{
+    font-size: 11px;
+}
+
+.idea{
+   display: block;
+}
+
+.core_idea{
+    width: 28em;
+    padding-left: 5px;
+    font-size: 13px;
+}
+
+.core_image{
+    width: 23em;
+    padding: 10px;
+    height: 25em;
+}
+
+.help-container{
+    font-size: 13px;
+}
+.header{
+    height: 200px;
+}
+
+.header h1{
+    font-size: 15px;
+}
+
+.header h4{
+    font-size: 10px;
+}
+
+.btnnnn{
+    width: 10px;
+    font-size: 12px;
+}
+
+.btnnnnn{
+    font-size: 12px;
+}
+}
+
+@media (max-width: 768px) {
+    .nav-container {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .nav-links a {
+        margin-left: 0.5rem;
+        font-size: 0.8rem;
+    }
+
+    table {
+        font-size: 0.85rem;
+    }
+
+    .form-container {
+    padding: 1.5rem;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    width: 100%;
+    max-width: 25em;
+    box-sizing: border-box;
+  }
+
+  /* for section one of form */
+#year_group, #member_name, #student_id{
+    width: 18em;
+}
+
+#group_id{
+    width: 18em;
+}
+
+/* for section two of form */
+#site_location{
+   padding: 10px;
+    border: 2px solid #2e7d32;
+    width: 18em;
+}
+
+#location{
+    width: 18em;
+}
+
+#latitude{
+  width: 7em;
+}
+
+#longitude{
+  width: 7em;
+}
+
+#imageInput{
+    width: 18em;
+}
+
+#camera{
+    width: 18em;
+}
+
+/* for section three of form */
+#count{
+    width: 17em;
+}
+
+#species{
+    width: 18em;
+}
+
+#new_species, #new_count{
+    width: 18em;
+}
+
+#survey, #site_habitat{
+    padding: 10px;
+    border: 2px solid #2e7d32;
+    width: 18em;
+}
+
+/* for section four of form */
+#temperature{
+    width: 17em;
+}
+
+#humidity{
+    width: 17em;
+}
+
+#rainfall{
+    width: 17em;
+}
+
+#wind_speed{
+    width: 17em;
+}
+
+#wind_direction{
+    width: 17em;
+}
+
+/*for section five of the form*/
+#light_intensity, #canopy_cover, #canopy_height{
+    width: 18em;
+}
+
+#notes{
+    width: 15em;
+    border: 2px solid black;
+    margin-left: 0.5em;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 15px;
+    margin-bottom: 5px;
+}
+
+.footer-section{
+    display: none;
+}
+}
+
+.option{
+    text-align: center; 
+    margin: 5px 0;}
+
+#camera{
+    display:none;
+}    
+
+.new{
+    border: 1px solid red;
+    padding: 10px;
+}
+
+div .manual_input{
+    border: 2px solid red;
+    padding: 10px;
+    width: 25em;
+}
+
+.btn1{
+  background-color: red;
+}
+
+.cta{
+    margin-top: 20px;
+}
+
+.user{
+    background: #2e7d32; 
+    border-radius: 20px; 
+    font-size: 13px; 
+    padding: 2px 8px;
+    color: white;
+}
+
+.core_idea{
+    line-height: 1.6;
+}
+
+.btnnnn{
+    background-color: #2e7d32;
+    color: white;
+    padding: 10px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.btnnnn:hover{
+    background: none;
+    color: white;
+    padding: 10px;
+    text-decoration: none;
+    border-radius: 5px;
+    border: 2px solid #ffffff;
+}
+
+.btnnnnn{
+    color: #2e7d32;
+    padding: 8px;
+    text-decoration: none;
+    border-radius: 5px;
+    border: 2px solid #ffffff;
+    background-color: #dcedc8;
+}
+
+.btnnnnn:hover{
+    color: white;
+     background: none;
+}
+
+.copyright{
+    font-size: 12px;
+}
+
+.start{
+    text-align: left;
+}
+
+.start-head{
+    font-size: 17px;
+}
+
+.start-end{
+    font-size: 12px;
+}
+

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+  <title>Admin Login</title>
+</head>
+<body>
+
+ <nav class="navbar">
+    <div class="nav-container">
+      <a href="/" class="nav-brand">EcoField Logger</a>
+      <h5>University of Ghana &bull; School of Biological Sciences</h5>
+      <div class="nav-links">
+        <!-- <a href="/home">Home</a>
+        <a href="/form">Log</a>
+        <a href="/group">Data</a>
+        <a href="/help">Help</a> -->
+        <a href="/admin/view_archive" class="active">Admin</a>
+        <a href="/">Logout</a>
+
+      </div>
+    </div>
+  </nav>
+
+  <div class="admin">
+    <div class="header">
+    <h1 class="text">Admin Login</h1>
+    <p>Enter your password to access the admin panel of <strong>EcoField Logger</strong></p>
+    {% if error %}
+      <p style="color:red;">{{ error }}</p>
+    {% endif %}
+  </div>
+  <main>
+    <form action="/admin/login" method="POST" class="form-container">
+      <label for="admin_password">Admin Password</label>
+      <input type="password" name="admin_password" id="group_id" placeholder="Enter Admin Password" required>
+
+      <button type="submit" class="btn1" style="width: 100%; background-color: rgb(31, 194, 31)">Login</button>
+    </form>
+  </main>
+  </div>
+</body>
+</html>

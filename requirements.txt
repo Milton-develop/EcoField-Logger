@@ -1,0 +1,10 @@
+# --- Web Frameworks ---
+Flask
+streamlit
+
+# --- Data Analysis & Visualization ---
+pandas
+plotly
+
+# --- Deployment Utilities ---
+gunicorn

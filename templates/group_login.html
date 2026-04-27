@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/group_login.css') }}">
+  <title>Login &bull; EcoField Logger</title>
+</head>
+<body>
+
+     <nav class="navbar">
+    <div class="nav-container">
+      <a href="/group" class="nav-brand">EcoField Logger</a>
+      <div class="nav-links">
+        <a href="/home">Home</a>
+        <a href="/form">Log</a>
+        <a href="/group" class="active">Data</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="header">
+    <!-- <h1 class="text">Group Login</h1> -->
+    <p>Enter your Group ID and password to view submissions</p>
+   
+  </div>
+
+  <main>
+    <form action="/group" method="POST" class="form-container">
+      <label for="group_id">Group ID</label>
+      <input type="text" name="group_id" placeholder="Enter Group ID" required>
+       <br>
+      <label for="password">Password</label>
+      <input type="password" name="password" placeholder="Enter Password" id="group_id" required>
+       <br>
+       <p>
+         {% if error %}
+      <p class="error">{{ error }}</p>
+    {% endif %}
+       </p>
+      <button type="submit" class="btn1">Login</button>
+    </form>
+  </main>
+</body>
+</html>
