@@ -6,5 +6,8 @@ streamlit
 pandas
 plotly
 
+# --- Database & Backend ---
+supabase
+
 # --- Deployment Utilities ---
 gunicorn
