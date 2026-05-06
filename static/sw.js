@@ -1,8 +1,11 @@
-const CACHE_NAME = 'ecofield-cache-v2';
+const CACHE_NAME = 'ecofield-cache-v3';
 const urlsToCache = [
   '/',
+  '/form',    
+  '/home',                          // ← ADDED: cache the form page for offline use
   '/static/css/style.css',
   '/static/manifest.json',
+  '/static/data.json',                  // ← ADDED: needed for species dropdown offline
   '/static/images/header.jpg',
   '/static/images/icon-192x192.png',
   '/static/images/icon-512x512.png'
@@ -15,6 +18,7 @@ self.addEventListener('install', event => {
         return cache.addAll(urlsToCache);
       })
   );
+  self.skipWaiting(); // ← ADDED: activate SW immediately without waiting
 });
 
 self.addEventListener('fetch', event => {
@@ -32,8 +36,6 @@ self.addEventListener('fetch', event => {
     '/delete_entry'
   ];
   
-  // If the request path is in our bypass list, or it's the root URL ('/') but being requested
-  // from a form submission or refresh expecting fresh data, bypass cache entirely.
   if (bypassCachePaths.some(path => url.pathname.includes(path))) {
       return; 
   }
@@ -41,8 +43,6 @@ self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request)
       .then(response => {
-        // Cache hit - return response unless it's the root HTML, 
-        // we'll try network first for the root to ensure fresh form data view
         if (response && url.pathname !== '/') {
           return response;
         }
@@ -63,7 +63,10 @@ self.addEventListener('fetch', event => {
             return response;
           }
         ).catch(() => {
-          // Optional: return offline fallback here
+          // ← ADDED: if offline and navigating, serve the cached /form page
+          if (event.request.mode === 'navigate') {
+            return caches.match('/form');
+          }
         });
       })
   );
@@ -82,4 +85,94 @@ self.addEventListener('activate', event => {
       );
     })
   );
+  self.clients.claim(); // ← ADDED: take control of all open pages immediately
+});
+
+// ── INDEXEDDB SETUP FOR SW ─────────────────────────────────────
+const DB_NAME = 'EcoFieldDB';
+const STORE = 'submissions';
+
+function openDB() {
+  return new Promise((resolve, reject) => {
+    const req = indexedDB.open(DB_NAME, 1);
+    req.onupgradeneeded = (e) => {
+      const db = e.target.result;
+      if (!db.objectStoreNames.contains(STORE)) {
+        const store = db.createObjectStore(STORE, { keyPath: 'id', autoIncrement: true });
+        store.createIndex('synced', 'synced', { unique: false });
+      }
+    };
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+}
+
+async function getUnsyncedRecords() {
+  const db = await openDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE, 'readonly');
+    const req = tx.objectStore(STORE).index('synced').getAll(0);
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(tx.error);
+  });
+}
+
+async function markSynced(id) {
+  const db = await openDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE, 'readwrite');
+    const store = tx.objectStore(STORE);
+    const req = store.get(id);
+    req.onsuccess = () => {
+      if (req.result) {
+        const record = req.result;
+        record.synced = 1;
+        store.put(record);
+      }
+    };
+    tx.oncomplete = resolve;
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
+async function syncToServerSW() {
+  const records = await getUnsyncedRecords();
+  if (records.length === 0) return;
+
+  console.log(`[SW] Syncing ${records.length} offline record(s)...`);
+
+  for (const record of records) {
+    try {
+      const formData = new FormData();
+      Object.entries(record).forEach(([key, val]) => {
+        if (key === 'photos') {
+          val.forEach((photo, i) => formData.append(`offline_photo_${i}`, photo.data));
+        } else if (key === 'species_entries' || key === 'new_species_entries') {
+          formData.append(key, JSON.stringify(val));
+        } else {
+          formData.append(key, val);
+        }
+      });
+      formData.append('offline_sync', 'true');
+
+      const res = await fetch('/form', { method: 'POST', body: formData });
+      if (res.ok) {
+        await markSynced(record.id);
+        console.log(`[SW] Record ${record.id} synced successfully!`);
+      } else {
+        console.warn(`[SW] Record ${record.id} sync failed with status ${res.status}.`);
+      }
+    } catch (err) {
+      console.warn(`[SW] Record ${record.id} sync failed (network error).`);
+      throw err; // throw to let Background Sync know it failed and should retry later
+    }
+  }
+}
+
+// ── Background Sync listener ──────────────────────────────────────────
+self.addEventListener('sync', (event) => {
+  if (event.tag === 'sync-ecofield') {
+    console.log('[SW] Background sync event triggered');
+    event.waitUntil(syncToServerSW());
+  }
 });
