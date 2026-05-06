@@ -18,15 +18,18 @@
       </div>
     </div>
   </nav>
-
-
     <main>
-     <form action="" method="POST" class="form-container" id="form" enctype="multipart/form-data" onsubmit="window.location.href='index.html'">
+     <form action="" method="POST" class="form-container" id="form" enctype="multipart/form-data">
 
        <h2>Data Collection Form</h2>
        {% if error %}
          <div style="background-color: #f8d7da; color: #721c24; padding: 10px; margin-bottom: 20px; border-radius: 5px; border: 1px solid #f5c6cb;">
            <strong>Wait!</strong> {{ error }}
+         </div>
+       {% endif %}
+       {% if success %}
+         <div style="background-color: #d4edda; color: #155724; padding: 10px; margin-bottom: 20px; border-radius: 5px; border: 1px solid #c3e6cb;">
+           <strong>Success!</strong> Data has been submitted successfully.
          </div>
        {% endif %}
        <div class="stepper-navigation">
@@ -593,19 +596,289 @@ function updateDirection(val){
 }
 
   </script>
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-          .then(registration => {
-            console.log('ServiceWorker registration successful with scope: ', registration.scope);
-          })
-          .catch(err => {
-            console.log('ServiceWorker registration failed: ', err);
-          });
+
+
+  <!-- OFFLINE PWA SCRIPT — replaces existing SW registration script -->
+<script>
+    const DB_NAME = 'EcoFieldDB';
+    const STORE = 'submissions';
+// ── SERVICE WORKER REGISTRATION ──────────────────────────────
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then(reg => console.log('SW registered, scope:', reg.scope))
+      .catch(err => console.error('SW failed:', err));
+  });
+}
+
+// ── ONLINE/OFFLINE STATUS BANNER ─────────────────────────────
+function updateStatus() {
+  let banner = document.getElementById('offline-banner');
+  if (!banner) {
+    banner = document.createElement('div');
+    banner.id = 'offline-banner';
+    banner.style.cssText = `
+      position: fixed; top: 0; left: 0; width: 100%; z-index: 9999;
+      padding: 8px; text-align: center; font-weight: bold;
+      font-size: 14px; transition: all 0.3s; border: 2em;
+    `;
+    document.body.prepend(banner);
+  }
+  if (navigator.onLine) {
+    banner.textContent = '🟢ONLINE — saved records will sync now';
+    banner.style.background = '#d4edda';
+    banner.style.color = '#155724';
+    setTimeout(() => { banner.style.display = 'none'; }, 4000);
+    syncToServer();
+  } else {
+    banner.style.display = 'block';
+    banner.textContent = '🔴 OFFLINE — data will be saved locally and updated when internet connection is restored';
+    banner.style.background = '#f8d7da';
+    banner.style.color = '#721c24';
+  }
+}
+window.addEventListener('online', updateStatus);
+window.addEventListener('offline', updateStatus);
+updateStatus();
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.addEventListener('message', event => {
+    if (event.data && event.data.type === 'SYNC_NOW') {
+      console.log('Background sync triggered by Service Worker');
+      syncToServer();
+    }
+  });
+}
+
+// ── INDEXEDDB SETUP ───────────────────────────────────────────
+
+function openDB() {
+  return new Promise((resolve, reject) => {
+    const req = indexedDB.open(DB_NAME, 1);
+    req.onupgradeneeded = (e) => {
+      const db = e.target.result;
+      if (!db.objectStoreNames.contains(STORE)) {
+        const store = db.createObjectStore(STORE, { keyPath: 'id', autoIncrement: true });
+        store.createIndex('synced', 'synced', { unique: false });
+      }
+    };
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+}
+
+async function saveToLocalDB(data) {
+  const db = await openDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE, 'readwrite');
+    tx.objectStore(STORE).add({ ...data, synced: false, savedAt: new Date().toISOString() });
+    tx.oncomplete = resolve;
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
+async function getUnsyncedRecords() {
+  const db = await openDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE, 'readonly');
+    const req = tx.objectStore(STORE).index('synced').getAll(false);
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+}
+
+async function markSynced(id) {
+  const db = await openDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE, 'readwrite');
+    const store = tx.objectStore(STORE);
+    const req = store.get(id);
+    req.onsuccess = () => {
+      const record = req.result;
+      record.synced = true;
+      store.put(record);
+    };
+    tx.oncomplete = resolve;
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
+// ── COLLECT ALL FORM DATA ─────────────────────────────────────
+function collectFormData() {
+  // Collect species entries from the saved-entries divs
+  const speciesEntries = [];
+  document.querySelectorAll('#species-saved-entries .species-saved-entry').forEach(entry => {
+    const name = entry.querySelector('input[name="species[]"]')?.value;
+    const count = entry.querySelector('input[name="count[]"]')?.value;
+    if (name) speciesEntries.push({ species: name, count });
+  });
+
+  const newSpeciesEntries = [];
+  document.querySelectorAll('#new-species-saved-entries .new-species-saved-entry').forEach(entry => {
+    const name = entry.querySelector('input[name="species_manual"]')?.value;
+    const count = entry.querySelector('input[name="count_manual"]')?.value;
+    if (name) newSpeciesEntries.push({ species: name, count });
+  });
+
+  // Collect photos as base64
+  const photoPromises = [];
+  ['imageInput', 'camera'].forEach(id => {
+    const input = document.getElementById(id);
+    if (input && input.files.length > 0) {
+      Array.from(input.files).forEach(file => {
+        photoPromises.push(new Promise(resolve => {
+          const reader = new FileReader();
+          reader.onload = e => resolve({ name: file.name, data: e.target.result });
+          reader.readAsDataURL(file);
+        }));
       });
     }
-  </script>
+  });
+
+  return Promise.all(photoPromises).then(photos => ({
+    // Step 1 — Researcher Info
+    year_group: document.getElementById('year_group')?.value || '',
+    group_id: document.getElementById('group_id')?.value || '',
+    member_name: document.getElementById('member_name')?.value || '',
+    student_id: document.getElementById('student_id')?.value || '',
+    // Step 2 — Location
+    location: document.getElementById('location')?.value || '',
+    survey_type: document.getElementById('survey')?.value || '',
+    latitude: document.getElementById('latitude')?.value || '',
+    longitude: document.getElementById('longitude')?.value || '',
+    photos: photos,
+    // Step 3 — Species
+    site_location: document.getElementById('site_location')?.value || '',
+    species_entries: speciesEntries,
+    new_species_entries: newSpeciesEntries,
+    habitat: document.getElementById('site_habitat')?.value || '',
+    // Step 4 — Microhabitat
+    temperature: document.getElementById('temperature')?.value || '',
+    humidity: document.getElementById('humidity')?.value || '',
+    rainfall: document.getElementById('rainfall')?.value || '',
+    wind_speed: document.getElementById('wind_speed')?.value || '',
+    wind_direction: document.getElementById('wind_direction')?.value || '',
+    // Step 5 — More Microhabitat
+    light_intensity: document.getElementById('light_intensity')?.value || '',
+    canopy_cover: document.getElementById('canopy_cover')?.value || '',
+    canopy_height: document.getElementById('canopy_height')?.value || '',
+    notes: document.getElementById('notes')?.value || '',
+  }));
+}
+
+// ── SYNC UNSYNCED RECORDS TO SERVER ──────────────────────────
+async function syncToServer() {
+  const records = await getUnsyncedRecords();
+  if (records.length === 0) return;
+
+  console.log(`Syncing ${records.length} offline record(s)...`);
+
+  for (const record of records) {
+    try {
+      // Build FormData for Flask to receive like a normal POST
+      const formData = new FormData();
+      Object.entries(record).forEach(([key, val]) => {
+        if (key === 'photos') {
+          val.forEach((photo, i) => formData.append(`offline_photo_${i}`, photo.data));
+        } else if (key === 'species_entries' || key === 'new_species_entries') {
+          formData.append(key, JSON.stringify(val));
+        } else {
+          formData.append(key, val);
+        }
+      });
+      formData.append('offline_sync', 'true');
+
+      const res = await fetch('/form', { method: 'POST', body: formData });
+      if (res.ok) {
+        await markSynced(record.id);
+        console.log(`Record ${record.id} synced ✅`);
+      }
+    } catch (err) {
+      console.warn(`Record ${record.id} sync failed, will retry later.`);
+    }
+  }
+}
+
+// ── INTERCEPT FORM SUBMIT ─────────────────────────────────────
+document.getElementById('form').addEventListener('submit', async function (e) {
+  e.preventDefault();
+
+  const data = await collectFormData();
+
+  if (!navigator.onLine) {
+    // Save locally
+    await saveToLocalDB(data);
+    showMessage('success', '📥 Saved offline! Will sync when you\'re back online.');
+    this.reset();
+    clearPreviews();
+    // Register background sync if supported
+    if ('serviceWorker' in navigator && 'SyncManager' in window) {
+      const reg = await navigator.serviceWorker.ready;
+      await reg.sync.register('sync-ecofield');
+    }
+  } else {
+    // Try to submit normally
+    try {
+      const formData = new FormData(this);
+      const res = await fetch('/form', { method: 'POST', body: formData });
+      if (res.ok) {
+        showMessage('success', '✅ Data submitted successfully!');
+        this.reset();
+        clearPreviews();
+      } else {
+        // Server error — save locally as fallback
+        await saveToLocalDB(data);
+        showMessage('warning', '⚠️ Server error — saved locally, will retry.');
+      }
+    } catch (err) {
+      // Network error — save locally
+      await saveToLocalDB(data);
+      showMessage('warning', '⚠️ Connection lost — saved locally, will retry.');
+    }
+  }
+});
+
+function showMessage(type, text) {
+  const colors = {
+    success: { bg: '#d4edda', color: '#155724', border: '#c3e6cb' },
+    warning: { bg: '#fff3cd', color: '#856404', border: '#ffeeba' },
+    error:   { bg: '#f8d7da', color: '#721c24', border: '#f5c6cb' },
+  };
+  const c = colors[type];
+  let msg = document.getElementById('form-message');
+  if (!msg) {
+    msg = document.createElement('div');
+    msg.id = 'form-message';
+    document.querySelector('.form-container').prepend(msg);
+  }
+  msg.style.cssText = `background:${c.bg}; color:${c.color}; border:1px solid ${c.border};
+    padding:10px; margin-bottom:15px; border-radius:5px;`;
+  msg.textContent = text;
+  setTimeout(() => msg.remove(), 6000);
+}
+
+let deferredPrompt;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+
+  // Show your custom install button
+  const installBtn = document.getElementById('install-btn');
+  if (installBtn) installBtn.style.display = 'block';
+});
+
+document.getElementById('install-btn')?.addEventListener('click', async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+  if (outcome === 'accepted') {
+    document.getElementById('install-btn').style.display = 'none';
+  }
+  deferredPrompt = null;
+});
+
+</script>
   
 </body>
 </html>
