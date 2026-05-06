@@ -29,6 +29,10 @@
         <a href="/admin/view_archive">Admin</a>
         {%endif%}
         <a href="/help">Help</a>
+        <!-- Add to your navbar or index.html -->
+<a id="install-btn" style="display:none; background:none;" class="gps-btn">
+  Install
+</a>
         <a href="/" style="background-color: red; color: white;">Logout</a>
       </div>
     </div>
@@ -78,337 +82,36 @@
 
 
   <script>
-const imageInput = document.getElementById('imageInput');
-const cameraInput = document.getElementById('camera');
-const videoInput = document.getElementById('video-camera');
-const previewContainer = document.getElementById('preview-container');
-
-function handleFiles(files) {
-    Array.from(files).forEach(file => {
-        const reader = new FileReader();
-
-        reader.onload = function (e) {
-            const wrapper = document.createElement('div');
-            wrapper.style.position = 'relative';
-
-            const img = document.createElement('img');
-            img.src = e.target.result;
-            img.style.width = '80px';
-            img.style.height = '80px';
-            img.style.objectFit = 'cover';
-            img.style.borderRadius = '5px';
-
-            wrapper.appendChild(img);
-            previewContainer.appendChild(wrapper);
-        }
-
-        reader.readAsDataURL(file);
+  // ── SERVICE WORKER REGISTRATION ──────────────────────
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js')
+        .then(reg => console.log('SW registered, scope:', reg.scope))
+        .catch(err => console.error('SW failed:', err));
     });
-}
+  }
 
-imageInput.addEventListener('change', function () {
-    handleFiles(this.files);
-});
+  // ── PWA INSTALL PROMPT ────────────────────────────────
+  let deferredPrompt;
 
-cameraInput.addEventListener('change', function () {
-    handleFiles(this.files);
-});
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    const installBtn = document.getElementById('install-btn');
+    if (installBtn) installBtn.style.display = 'block';
+  });
 
-function getGPS() {
-    const status = document.getElementById("gps-status");
-    const lat = document.getElementById("latitude");
-    const lon = document.getElementById("longitude");
-
-    status.innerText = "Locating...";
-
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                lat.value = position.coords.latitude.toFixed(6);
-                lon.value = position.coords.longitude.toFixed(6);
-                status.innerText = "Coordinates Found! ✅";
-                status.style.color = "green";
-            },
-            (error) => {
-                status.innerText = "Error: " + error.message;
-                status.style.color = "red";
-            }
-        );
-    } else {
-        status.innerText = "Geolocation is not supported by this browser.";
-    }
-}
-
-function clearPreviews() {
-    previewContainer.innerHTML = '';
-    document.getElementById("gps-status").innerText = "";
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    const stepNumbers = document.querySelectorAll('.step-one');
-    const formSections = document.querySelectorAll('.first-page');
-    const navButtons = document.querySelectorAll('.next-btn, .prev-btn');
-
-    function showStep(stepToShow) {
-        formSections.forEach(section => {
-            section.classList.add('hidden');
-            section.classList.remove('active');
-        });
-        stepNumbers.forEach(step => {
-            step.classList.remove('active');
-        });
-
-        const targetSection = document.getElementById(`step-${stepToShow}`);
-        if (targetSection) {
-            targetSection.classList.remove('hidden');
-            targetSection.classList.add('active');
-        }
-
-        const targetStepNumber = document.querySelector(`.step-one[data-step="${stepToShow}"]`);
-        if (targetStepNumber) {
-            targetStepNumber.classList.add('active');
-        }
-    }
-
-    stepNumbers.forEach(step => {
-        step.addEventListener('click', (e) => {
-            e.preventDefault();
-            const stepToShow = e.currentTarget.getAttribute('data-step');
-            showStep(stepToShow);
-        });
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('install-btn')?.addEventListener('click', async () => {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') {
+        document.getElementById('install-btn').style.display = 'none';
+      }
+      deferredPrompt = null;
     });
-
-    navButtons.forEach(button => {
-        button.addEventListener('click', (e) => {
-            const nextStep = e.currentTarget.getAttribute('data-next-step');
-            const prevStep = e.currentTarget.getAttribute('data-prev-step');
-
-            if (nextStep) {
-                showStep(nextStep);
-            } else if (prevStep) {
-                showStep(prevStep);
-            }
-        });
-    });
-});
-
-let ecoData = {};
-
-fetch('/static/data.json')
-    .then(response => response.json())
-    .then(data => {
-        ecoData = data;
-    });
-
-function updateSpeciesOptions(targetSelect = null) {
-    const location = document.getElementById('site_location').value;
-    const survey = document.getElementById('survey').value;
-
-    const dropdowns = targetSelect
-        ? [targetSelect]
-        : document.querySelectorAll('.species-dropdown');
-
-    dropdowns.forEach(select => {
-        const previousValue = select.value;
-
-        select.innerHTML = '<option value="">-- Select Species --</option>';
-
-        if (ecoData[location] && ecoData[location][survey]) {
-            ecoData[location][survey].forEach(item => {
-                const option = document.createElement('option');
-                option.value = item.scientific;
-                option.textContent = `${item.name} (${item.scientific})`;
-                select.appendChild(option);
-            });
-
-            const otherOption = document.createElement('option');
-            otherOption.value = "Other";
-            otherOption.textContent = "Other (New Species)";
-            select.appendChild(otherOption);
-
-            select.value = previousValue;
-        } else {
-            select.innerHTML = '<option value="">No data available for this selection</option>';
-        }
-    });
-}
-
-document.getElementById('site_location')
-    .addEventListener('change', () => updateSpeciesOptions());
-
-document.getElementById('survey')
-    .addEventListener('change', () => updateSpeciesOptions());
-
-document.addEventListener('change', function (e) {
-    if (e.target.classList.contains('species-dropdown')) {
-        toggleNewSpecies(e.target);
-    }
-});
-
-function toggleSpeciesSection() {
-    const siteLocation = document.getElementById('site_location').value;
-    const speciesSection = document.getElementById('species-section');
-
-    if (siteLocation !== '') {
-        speciesSection.style.display = 'block';
-    } else {
-        speciesSection.style.display = 'none';
-
-        const newSpeciesCheckbox = document.getElementById('new_species_checkbox');
-        const newSpeciesSection = document.getElementById('new-species-section');
-        newSpeciesCheckbox.checked = false;
-        newSpeciesSection.style.display = 'none';
-
-        resetNewSpeciesContainer();
-    }
-}
-
-function toggleNewSpecies() {
-    const checkbox = document.getElementById('new_species_checkbox');
-    const newSpeciesSection = document.getElementById('new-species-section');
-
-    if (checkbox.checked) {
-        newSpeciesSection.style.display = 'block';
-    } else {
-        newSpeciesSection.style.display = 'none';
-        resetNewSpeciesContainer();
-    }
-}
-
-function removeBlock(button, blockClass) {
-    const block = button.closest('.' + blockClass);
-    if (block) {
-        block.remove();
-    }
-}
-
-function resetNewSpeciesContainer() {
-    const container = document.getElementById('new-species-container');
-    container.innerHTML = `
-        <div class="new-species-block">
-            <label>Species Name</label>
-            <br>
-            <input type="text" class="input" id="new_species" placeholder="Enter new species name">
-            <br>
-            <label>Number</label>
-            <br>
-            <input type="number" class="input" id="new_count" placeholder="Enter number observed">
-            <hr>
-        </div>
-    `;
-}
-
-// ===== SINGLE addSpecies function - saves entry to collector div =====
-function addSpecies() {
-    const speciesSelect = document.getElementById('species');
-    const countInput = document.getElementById('count');
-    const container = document.getElementById('species-saved-entries');
-
-    if (!speciesSelect || !countInput || !container) return;
-
-    const speciesText = speciesSelect.options[speciesSelect.selectedIndex].text;
-    const speciesValue = speciesSelect.value;
-    const countValue = countInput.value;
-
-    if (!speciesValue || speciesValue === '') {
-        alert('Please select a species before adding.');
-        return;
-    }
-    if (!countValue || countValue <= 0) {
-        alert('Please enter a valid number.');
-        return;
-    }
-
-    const entryDiv = document.createElement('div');
-    entryDiv.className = 'species-saved-entry';
-    entryDiv.style.cssText = 'border: 1px solid #ccc; padding: 10px; margin-bottom: 8px; border-radius: 5px; background: #f9f9f9; display: flex; justify-content: space-between; align-items: center;';
-
-    entryDiv.innerHTML = `
-        <div>
-            <strong>Species:</strong> ${speciesText} &nbsp; | &nbsp; <strong>Number:</strong> ${countValue}
-            <input type="hidden" name="species[]" value="${speciesValue}">
-            <input type="hidden" name="count[]" value="${countValue}">
-        </div>
-        <button type="button" style="background: #e74c3c; color: #fff; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;" onclick="removeEntry(this)">✕ Remove</button>
-    `;
-
-    container.appendChild(entryDiv);
-
-    // Reset the ORIGINAL form fields only
-    speciesSelect.selectedIndex = 0;
-    countInput.value = '';
-}
-
-// ===== SINGLE addNewSpecies function - saves entry to collector div =====
-function addNewSpecies() {
-    const newSpeciesInput = document.getElementById('new_species');
-    const newCountInput = document.getElementById('new_count');
-    const savedList = document.getElementById('new-species-saved-entries');
-
-    if (!newSpeciesInput || !newCountInput || !savedList) {
-        console.error('New species elements not found:', {
-            new_species: newSpeciesInput,
-            new_count: newCountInput,
-            saved_list: savedList
-        });
-        return;
-    }
-
-    const newSpeciesName = newSpeciesInput.value.trim();
-    const newCountValue = newCountInput.value.trim();
-
-    if (!newSpeciesName || !newCountValue || parseInt(newCountValue) < 1) {
-        alert('Please enter new species name and valid count first');
-        return;
-    }
-
-    const entryElement = document.createElement('div');
-    entryElement.className = 'new-species-saved-entry';
-    entryElement.style.cssText = 'border: 1px solid #ccc; padding: 10px; margin-bottom: 8px; border-radius: 5px; background: #f8fff8; display: flex; justify-content: space-between; align-items: center;';
-
-    entryElement.innerHTML = `
-        <div>
-            <strong>🆕 Species:</strong> ${newSpeciesName} &nbsp; | &nbsp; <strong>Number:</strong> ${newCountValue}
-            <input type="hidden" name="species_manual" value="${newSpeciesName}">
-            <input type="hidden" name="count_manual" value="${newCountValue}">
-        </div>
-        <button type="button" style="background: #e74c3c; color: #fff; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;" onclick="removeEntry(this)">✕ Remove</button>
-    `;
-
-    savedList.appendChild(entryElement);
-
-    // Reset inputs
-    newSpeciesInput.value = '';
-    newCountInput.value = '';
-}
-
-// Universal remove function
-function removeEntry(btn) {
-    btn.parentElement.remove();
-}
-
-function updateDirection(val){
-  const dirs = ["N","NE","E","SE","S","SW","W","NW","N"];
-  let index = Math.round(val/45);
-  document.getElementById('direction_val').innerText =
-      val + "° (" + dirs[index] + ")";
-}
-
-  </script>
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-          .then(registration => {
-            console.log('ServiceWorker registration successful with scope: ', registration.scope);
-          })
-          .catch(err => {
-            console.log('ServiceWorker registration failed: ', err);
-          });
-      });
-    }
-
- 
-  </script>
+  });
+</script>
 </body>
 </html>
